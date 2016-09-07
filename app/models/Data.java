@@ -11,9 +11,9 @@ import java.util.Date;
  */
 @Entity
 public class Data extends Model {
-    public float value;
     public Date timeCreate;
     public Date timeReceived;
+    public float value;
     @ManyToOne
     public Node node;
     @ManyToOne
@@ -32,4 +32,18 @@ public class Data extends Model {
         this.sensor = sensor;
         this.typeData = typeData;
     }
+    public Data(float value, Date timeCreate, Date timeReceived, Long  idNode, Long idSensor, Long idTypeData) {
+        this.node=Node.findById(idNode);
+        this.sensor=Sensor.findById(idSensor);
+        this.typeData=TypeData.findById(idTypeData);
+
+        this.value = value;
+        this.timeCreate = timeCreate;
+        this.timeReceived = timeReceived;
+    }
+    public Data(float value, Sensor sensor){
+        this.value=value;
+        this.sensor=sensor;
+    }
+
 }
