@@ -70,6 +70,7 @@ public class ApiEmbed extends Controller {
                 Logger.error(e.getMessage());
             }
         }
+        Logger.info("update success ");
         renderJSON(new Response(1, "Success"));
 
     }
@@ -93,6 +94,7 @@ public class ApiEmbed extends Controller {
                 JsonElement jsonElement = result.getJson();
                 if (!jsonElement.isJsonNull()) {
                     JsonObject object = jsonElement.getAsJsonObject();
+                    renderJSON(new Response(1, "Success"));
                 } else {
 
                 }
