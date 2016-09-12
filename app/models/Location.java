@@ -5,6 +5,8 @@ import play.db.jpa.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.List;
 
 /**
@@ -21,6 +23,8 @@ public class Location extends Model {
     public float longitude;
     @Lob
     public String description;
+    @ManyToMany
+    public List<Sensor> sensors;
     public Location() {
     }
     public Location(String name, String address, float latitude, float longitude, String description) {

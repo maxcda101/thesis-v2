@@ -53,8 +53,8 @@ public class ApiMobile extends Controller {
         renderJSON(listValue);
     }
 
-    public static void sendFCM() {
-        ApiEmbed.sendNotification(1L,"Title", "body");
+    public static void sendFCM(String title, String body) {
+        ApiEmbed.sendNotification(1L,title, body);
         renderJSON("ok ");
     }
 
