@@ -16,14 +16,13 @@ import stateful.Stateful;
 import utils.DateFormat;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by AnhQuan on 9/6/2016.
  */
 public class ApiEmbed extends Controller {
+    private static Map<Long, Float> airQuality = new HashMap<Long, Float>();
     public static void index() {
         renderJSON("Api embed");
     }
@@ -34,23 +33,31 @@ public class ApiEmbed extends Controller {
             renderJSON(new Response(2, "Validate error"));
         }
         Data data = new Data(value, DateFormat.StringToDate(timeRec), new Date(), idNode, idSensor, 3L);
-
+        Object state=data.save();
         //check Data for notification
-        if(data.sensor.id==1){
-            switch ((int)data.value){
-                case 2: sendNotification(data.node.root.location.id,"Cảnh báo node "+data.node.name,"Không khí đang bị ô nhiễm mức 2/3");
+        if (data.sensor.id == 1 && (airQuality.get(data.node.id)==null ||airQuality.get(data.node.id)!=data.value)) {
+            airQuality.put(data.node.id,data.value);
+            switch ((int) data.value) {
+                case 3:
+                    sendNotification(data.node.root.location.id, "Thông báo node " + data.node.name, "Không khí đã hết ô nhiễm");
                     break;
-                case 1: sendNotification(data.node.root.location.id,"Cảnh báo node "+data.node.name, "Không khí đang bị ô nhiễm mắc cao 1/3");
+                case 2:
+                    sendNotification(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Không khí đang bị ô nhiễm mức 2/3");
                     break;
-                case 0: sendNotification(data.node.root.location.id,"Cảnh báo node "+data.node.name, "Mất tín hiệu");
+                case 1:
+                    sendNotification(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Không khí đang bị ô nhiễm mắc cao 1/3");
+                    break;
+                case 0:
+                    sendNotification(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Mất tín hiệu");
             }
         }
-
-        if (data.save() != null) {
+        if(state!=null){
             renderJSON(new Response(1, "Success"));
-        } else {
+        }else{
             renderJSON(new Response(2, "Error"));
         }
+
+
 
     }
 
@@ -77,7 +84,7 @@ public class ApiEmbed extends Controller {
 
     public static void sendNotification(Long idLocation, String title, String body) {
         String json = "{\n" +
-                "  \"condition\": \"'"+idLocation+"' in topics\",\n" +
+                "  \"condition\": \"'" + idLocation + "' in topics\",\n" +
                 "  \"notification\": {\n" +
                 "        \"title\": \"" + title + "\",\n" +
                 "        \"text\": \"" + body + "\"\n" +
@@ -94,7 +101,7 @@ public class ApiEmbed extends Controller {
                 JsonElement jsonElement = result.getJson();
                 if (!jsonElement.isJsonNull()) {
                     JsonObject object = jsonElement.getAsJsonObject();
-                    renderJSON(new Response(1, "Success"));
+                          renderJSON(new Response(1, "Success"));
                 } else {
 
                 }

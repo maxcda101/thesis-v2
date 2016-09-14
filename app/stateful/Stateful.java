@@ -8,6 +8,8 @@ import play.Play;
 public class Stateful {
     public String urlFirebaseMessage;
     public String keyFirebaseMessage;
+    public String keyFirebase;
+    public String expireTime;
     public static Stateful instance=getInstance();
 
     public static Stateful getInstance() {
@@ -21,6 +23,12 @@ public class Stateful {
         }
         if(keyFirebaseMessage==null){
             keyFirebaseMessage=Play.configuration.getProperty("fcm.key");
+        }
+        if(keyFirebase==null){
+            keyFirebase=Play.configuration.getProperty("firebase.key");
+        }
+        if(expireTime==null){
+            expireTime=Play.configuration.getProperty("expireTime");
         }
     }
 }

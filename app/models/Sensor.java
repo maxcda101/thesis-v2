@@ -12,13 +12,17 @@ import java.util.List;
 public class Sensor extends Model {
     public String name;
     public String description;
+    public int type;
 
     public Sensor() {
     }
-    public Sensor(String name, String description) {
+
+    public Sensor(String name, String description, int type) {
         this.name = name;
         this.description = description;
+        this.type = type;
     }
+
     public static List<Sensor> getSensors(int start, int limit){
         if(limit<=0||limit >10){
             limit=10;

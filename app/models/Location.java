@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,5 +43,16 @@ public class Location extends Model {
             start=0;
         }
         return Location.find("").from(start).fetch(limit);
+    }
+    public static List<Sensor> getSensor(Long idLocation, int type){
+        Location location=Location.findById(idLocation);
+        List<Sensor> listSensor=location.sensors;
+        List<Sensor> listResult=new ArrayList<Sensor>();
+        for(Sensor sensor: listSensor){
+            if(sensor.type==type){
+                listResult.add(sensor);
+            }
+        }
+        return listResult;
     }
 }
