@@ -1,10 +1,14 @@
 package models;
 
+import play.db.jpa.JPA;
 import play.db.jpa.Model;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
+import javax.persistence.Query;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by AnhQuan on 9/6/2016.
@@ -44,6 +48,16 @@ public class Data extends Model {
     public Data(float value, Sensor sensor){
         this.value=value;
         this.sensor=sensor;
+    }
+    public static List<Data> getDataByDay(int day, int month, int year, Long idSensor, Long idNode){
+        String first=year+"-"+month+"-"+day;
+        String last=year+"-"+month+"-"+(day+1);
+
+        EntityManager em = JPA.em();
+        String sql="SELECT * FROM Data where '"+first+"' <timeCreate and timeCreate < '"+last+"' and sensor_id="+idSensor +" and node_id="+idNode+" and typeData_id=1";
+        Query query = em.createNativeQuery(sql,Data.class);
+        List<Data> result = (List<Data>) query.getResultList();
+        return result;
     }
 
 }

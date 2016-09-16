@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import entities.Response;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import jobs.SendFCM;
 import models.*;
 import play.Logger;
 import play.data.validation.Required;
@@ -31,6 +32,47 @@ public class ApiMobile extends Controller {
         renderJSON("Mobile api");
     }
 
+    public static void getListDataNode(@Required Long idLocation){
+        if (validation.hasErrors()) {
+            renderJSON(new Response(2, "Validate error"));
+        }
+        Date date = new Date(new Date().getTime() - 15 * 60000);
+        String sdate = "'" + DateFormat.DateToString(date) + "'";
+
+        List<Data> listValue = new ArrayList<Data>();
+        EntityManager em = JPA.em();
+
+        List<Sensor> listSensor = Location.getSensor(idLocation,0);
+        List<Node> listNode = Node.getAllNodeByLocation(idLocation);
+        for(Node node : listNode){
+            for(Sensor sensor: listSensor){
+                String sql = "SELECT * FROM Data WHERE node_id=" + node.id + " and sensor_id=" + sensor.id + " and timeCreate >" + sdate + " and typeData_id=" + 3 + " order by timeCreate desc limit 1";
+                Query query = em.createNativeQuery(sql, Data.class);
+                List<Data> listData = query.getResultList();
+                if (!listData.isEmpty()) {
+                    Data data = listData.get(0);
+                    data.node.root=null;
+                    data.typeData=null;
+                    data.timeCreate=null;
+                    data.timeReceived=null;
+                    listValue.add(data);
+                }else{
+                    Data data=new Data();
+                    data.node=node;
+                    data.sensor=sensor;
+                    data.value=-1;
+                    listValue.add(data);
+                }
+            }
+        }
+        renderJSON(listValue);
+    }
+    public static void getDataByDay(int day, int month, int year, @Required Long idSensor, @Required Long idNode) {
+        if (day == 0 || month == 0 || year == 0) {
+            renderJSON(new Response(2,"Date format exception"));
+        }
+        renderJSON(Data.getDataByDay(day, month, year, idSensor,idNode));
+    }
     public static void dataMedium(@Required Long idLocation) {
         if (validation.hasErrors()) {
             renderJSON(new Response(2, "Validate error"));
@@ -67,7 +109,8 @@ public class ApiMobile extends Controller {
     }
 
     public static void sendFCM(String title, String body) {
-        ApiEmbed.sendNotification(1L,title, body);
+//        ApiEmbed.sendNotification(1L,title, body);
+        SendFCM.sendNotification(1L,title, body);
         renderJSON("ok ");
     }
     public static void register(@Required String email,@Required String password,@Required String name,String address,String phone,String codeLocation){

@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import entities.DataEmbed;
 import entities.Response;
+import jobs.SendFCM;
 import models.Data;
 import play.Logger;
 import play.data.validation.Required;
@@ -33,25 +34,25 @@ public class ApiEmbed extends Controller {
             renderJSON(new Response(2, "Validate error"));
         }
         Data data = new Data(value, DateFormat.StringToDate(timeRec), new Date(), idNode, idSensor, 3L);
-        Object state=data.save();
         //check Data for notification
         if (data.sensor.id == 1 && (airQuality.get(data.node.id)==null ||airQuality.get(data.node.id)!=data.value)) {
+            Logger.info("Map: "+airQuality.get(data.node.id));
             airQuality.put(data.node.id,data.value);
             switch ((int) data.value) {
                 case 3:
-                    sendNotification(data.node.root.location.id, "Thông báo node " + data.node.name, "Không khí đã hết ô nhiễm");
+                    SendFCM.sendNotification(data.node.root.location.id, "Thông báo node " + data.node.name, "Không khí đã hết ô nhiễm");
                     break;
                 case 2:
-                    sendNotification(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Không khí đang bị ô nhiễm mức 2/3");
+                    SendFCM.sendNotification(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Không khí đang bị ô nhiễm mức 2/3");
                     break;
                 case 1:
-                    sendNotification(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Không khí đang bị ô nhiễm mắc cao 1/3");
+                    SendFCM.sendNotification(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Không khí đang bị ô nhiễm mắc cao 1/3");
                     break;
                 case 0:
-                    sendNotification(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Mất tín hiệu");
+                    SendFCM.sendNotification(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Mất tín hiệu");
             }
         }
-        if(state!=null){
+        if(data.save()!=null){
             renderJSON(new Response(1, "Success"));
         }else{
             renderJSON(new Response(2, "Error"));
@@ -80,32 +81,5 @@ public class ApiEmbed extends Controller {
         Logger.info("update success ");
         renderJSON(new Response(1, "Success"));
 
-    }
-
-    public static void sendNotification(Long idLocation, String title, String body) {
-        String json = "{\n" +
-                "  \"condition\": \"'" + idLocation + "' in topics\",\n" +
-                "  \"notification\": {\n" +
-                "        \"title\": \"" + title + "\",\n" +
-                "        \"text\": \"" + body + "\"\n" +
-                "      }\n" +
-                "}";
-        F.Promise<WS.HttpResponse> promise = WS.url(Stateful.instance.urlFirebaseMessage)
-                .setHeader("Authorization", "key=" + Stateful.instance.keyFirebaseMessage)
-                .setHeader("Content-Type", "application/json").body(json).postAsync();
-        await(promise, new F.Action<WS.HttpResponse>() {
-
-            @Override
-            public void invoke(WS.HttpResponse result) {
-                //
-                JsonElement jsonElement = result.getJson();
-                if (!jsonElement.isJsonNull()) {
-                    JsonObject object = jsonElement.getAsJsonObject();
-                          renderJSON(new Response(1, "Success"));
-                } else {
-
-                }
-            }
-        });
     }
 }
