@@ -1,6 +1,8 @@
-test
 logs
-server-v2.pid
+server.pid
+public/contents
+project/project
+project/target
 target
 tmp
 .history
@@ -13,9 +15,7 @@ nbproject
 build.sbt
 build.xml
 *.iml
+eclipse
 *.ipr
 *.iws
 modules
-*.csv
-*.xls
-
