@@ -67,11 +67,11 @@ public class ApiMobile extends Controller {
         }
         renderJSON(listValue);
     }
-    public static void getDataByDay(int day, int month, int year, @Required Long idSensor, @Required Long idNode) {
+    public static void getDataByDay(int day, int month, int year, @Required Long idSensor, @Required Long idNode, @Required Long idTypeData) {
         if (day == 0 || month == 0 || year == 0) {
             renderJSON(new Response(2,"Date format exception"));
         }
-        renderJSON(Data.getDataByDay(day, month, year, idSensor,idNode));
+        renderJSON(Data.getDataByDay(day, month, year, idSensor,idNode,idTypeData));
     }
     public static void dataMedium(@Required Long idLocation) {
         if (validation.hasErrors()) {

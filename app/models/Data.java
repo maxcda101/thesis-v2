@@ -49,12 +49,12 @@ public class Data extends Model {
         this.value=value;
         this.sensor=sensor;
     }
-    public static List<Data> getDataByDay(int day, int month, int year, Long idSensor, Long idNode){
+    public static List<Data> getDataByDay(int day, int month, int year, Long idSensor, Long idNode, Long idTypeData){
         String first=year+"-"+month+"-"+day;
         String last=year+"-"+month+"-"+(day+1);
 
         EntityManager em = JPA.em();
-        String sql="SELECT * FROM Data where '"+first+"' <timeCreate and timeCreate < '"+last+"' and sensor_id="+idSensor +" and node_id="+idNode+" and typeData_id=1";
+        String sql="SELECT * FROM Data where '"+first+"' <timeCreate and timeCreate < '"+last+"' and sensor_id="+idSensor +" and node_id="+idNode+" and typeData_id="+idTypeData;
         Query query = em.createNativeQuery(sql,Data.class);
         List<Data> result = (List<Data>) query.getResultList();
         return result;
