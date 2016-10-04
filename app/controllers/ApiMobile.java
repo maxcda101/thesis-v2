@@ -78,13 +78,15 @@ public class ApiMobile extends Controller {
         String sdate = "'" + DateFormat.DateToString(date) + "'";
         Data data=Data.find(" sensor_id="+idSensor+" AND node_id="+idNode +" AND timeCreate >"+sdate+" AND  typeData_id=3 order by timeCreate desc" ).first();
         if(data==null){
-            renderJSON(new Response(0,"Không có data"));
+            data=new Data();
+            data.value=0;
+            renderJSON(data);
         }else{
             data.node=null;
             data.sensor=null;
             data.typeData=null;
             data.timeReceived=null;
-            renderJSON(new Response(1,data));
+            renderJSON(data);
         }
     }
     public static void dataMedium(@Required Long idLocation) {
