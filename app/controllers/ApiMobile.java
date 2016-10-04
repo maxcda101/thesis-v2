@@ -83,6 +83,7 @@ public class ApiMobile extends Controller {
             data.node=null;
             data.sensor=null;
             data.typeData=null;
+            data.timeReceived=null;
             renderJSON(new Response(1,data));
         }
     }
