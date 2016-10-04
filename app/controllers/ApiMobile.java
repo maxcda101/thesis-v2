@@ -80,6 +80,9 @@ public class ApiMobile extends Controller {
         if(data==null){
             renderJSON(new Response(0,"Không có data"));
         }else{
+            data.node=null;
+            data.sensor=null;
+            data.typeData=null;
             renderJSON(new Response(1,data));
         }
     }
