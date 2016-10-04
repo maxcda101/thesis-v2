@@ -73,6 +73,16 @@ public class ApiMobile extends Controller {
         }
         renderJSON(Data.getDataByDay(day, month, year, idSensor,idNode,idTypeData));
     }
+    public static void getDataNow(@Required Long idSensor, @Required Long idNode) {
+        Date date = new Date(new Date().getTime() - 10 * 60000);
+        String sdate = "'" + DateFormat.DateToString(date) + "'";
+        Data data=Data.find(" sensor_id="+idSensor+" AND node_id="+idNode +" AND timeCreate >"+sdate+" AND  typeData_id=3 order by timeCreate desc" ).first();
+        if(data==null){
+            renderJSON(new Response(0,"Không có data"));
+        }else{
+            renderJSON(new Response(1,data));
+        }
+    }
     public static void dataMedium(@Required Long idLocation) {
         if (validation.hasErrors()) {
             renderJSON(new Response(2, "Validate error"));
