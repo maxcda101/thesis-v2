@@ -117,7 +117,7 @@ public class Application extends Controller {
         if(endDate==null){
             endDate=new Date();
         }
-        if (startDate.compareTo(endDate) >= 0) {
+        if (startDate.compareTo(endDate) > 0) {
             notification = "Thời gian bắt đầu và kết thúc không hợp lệ.";
             render(startDate, endDate, notification);
         }
@@ -127,7 +127,6 @@ public class Application extends Controller {
         }
         ModelPaginator data = null;
         data = new ModelPaginator(Data.class, "node_id = ? and typeData_id = ? and DATE(timeCreate) between ? and ?",idNode,3, startDate, endDate).orderBy("id desc");
-        Logger.info("xxxxxxxxxx: "+data.size());
         render(startDate,endDate,data,listNode);
     }
 

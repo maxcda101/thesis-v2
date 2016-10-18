@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by AnhQuan on 9/16/2016.
  */
-@On("0 00 * * * ?")//every hour h:00:00
+//@On("0 00 * * * ?")//every hour h:00:00
 public class HanderOneHour extends Job {
     @Override
     public void doJob() {

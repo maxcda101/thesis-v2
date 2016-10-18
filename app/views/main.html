@@ -4,16 +4,15 @@
 <head>
     <title>#{get 'title' /}</title>
     <meta charset="${_response_encoding}">
-    *{<meta name="viewport" content="width=device-width, initial-scale=1">}*
+*{<meta name="viewport" content="width=device-width, initial-scale=1">}*
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/bootstrap.css'}">
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/bootstrap-select.css'}">
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/datepicker.css'}">
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/jquery.dynatable.css'}">
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main-admin.css'}">
-    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/play-pagination.css'}">
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/tableStyle.css'}">
 #{get 'moreStyles' /}
-    <link rel="shortcut icon"  href="@{'/public/images/favicon.ico'}">
+    <link rel="shortcut icon" href="@{'/public/images/favicon.ico'}">
 
     <script src="@{'/public/javascripts/jquery-3.1.1.min.js'}" type="text/javascript"
             charset="${_response_encoding}"></script>
@@ -30,11 +29,17 @@
             <a href="#" style="line-height: 45px; color: #fff">Đăng xuất</a>
         </div>
         <div style="float: right; display: inline-block; margin: 8px 58px 8px 8px">
-            <select class="selectpicker show-tick" data-live-search="true" title="Chọn toà nhà ...">
-                <option data-tokens="ketchup mustard">Toà nhà 1</option>
-                <option data-tokens="mustard">Toà nhà 2</option>
-                <option data-tokens="frosting">Toà nhà 3</option>
-            </select>
+        #{list items:listLocation, as:'building'}
+            #{form @Application.selectLocation(), method:'POST', enctype:'multipart/form-data', id:'LocationForm'}
+                <select name="idLocation" id="idLocation" class="selectpicker show-tick" data-live-search="true"
+                        title="Chọn toà nhà ...">
+
+                    <option value="${location.id}">${location.name}</option>
+
+                </select>
+                <input type="submit">
+            #{/form}
+        #{/list}
         </div>
 
 
@@ -47,40 +52,46 @@
                 <nav class="menu">
                     <ul>
                         <li>
-                            <a #{if request.action=="Application.index"}class="active"#{/if} href="@{Application.index()}">
+                            <a
+                            #{if request.action=="Application.index"}class="active"#{/if} href="@{Application.index()}">
                                 <span class="glyphicon glyphicon-home"></span>
                                 <span class="nav-item">Trang chủ</span>
                             </a>
                         </li>
                         <li>
-                            <a #{if request.action=="Application.chart"}class="active"#{/if} href="@{Application.chart()}">
+                            <a
+                            #{if request.action=="Application.chart"}class="active"#{/if} href="@{Application.chart()}">
                                 <span class="glyphicon glyphicon-tower"></span>
                                 <span class="nav-item">Biểu đồ</span>
                             </a>
                         </li>
 
                         <li>
-                            <a #{if request.action=="Application.analytic"}class="active"#{/if} href="@{Application.analytic()}">
-                                <span class="glyphicon glyphicon-stats"></span>
-                                <span class="nav-item">Thống kê</span>
+                        <a#{if request.action=="Application.analytic"}class="active"#{/if}
+                            href="@{Application.analytic()}">
+                            <span class="glyphicon glyphicon-stats"></span>
+                            <span class="nav-item">Thống kê</span>
                             </a>
                         </li>
 
 
                         <li>
-                            <a #{if request.action=="Application.root"}class="active"#{/if} href="@{Application.root()}">
+                            <a
+                            #{if request.action=="Application.root"}class="active"#{/if} href="@{Application.root()}">
                                 <span class="glyphicon glyphicon-info-sign"></span>
                                 <span class="nav-item">Thông tin root</span>
                             </a>
                         </li>
                         <li>
-                            <a #{if request.action=="Application.node"}class="active"#{/if} href="@{Application.node()}">
+                            <a
+                            #{if request.action=="Application.node"}class="active"#{/if} href="@{Application.node()}">
                                 <span class="glyphicon glyphicon-screenshot"></span>
                                 <span class="nav-item">Thông tin node</span>
                             </a>
                         </li>
                         <li>
-                            <a #{if request.action=="Application.user"}class="active"#{/if} href="@{Application.user()}">
+                            <a
+                            #{if request.action=="Application.user"}class="active"#{/if} href="@{Application.user()}">
                                 <span class="glyphicon glyphicon-user"></span>
                                 <span class="nav-item">Người dùng</span>
                             </a>
@@ -88,7 +99,11 @@
                     </ul>
                 </nav>
                 <div class="wrapper-content">
-                #{doLayout /}
+                    <div class="row">
+                        <div class="col-md-12">
+                        #{doLayout /}
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -102,11 +117,18 @@
 </div>
 
 <script src="@{'/public/javascripts/lib/bootstrap.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/lib/bootstrap-select.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/lib/bootstrap-datepicker.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/lib/jquery.dynatable.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/lib/bootstrap-select.js'}" type="text/javascript"
+        charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/lib/bootstrap-datepicker.js'}" type="text/javascript"
+        charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/lib/jquery.dynatable.js'}" type="text/javascript"
+        charset="${_response_encoding}"></script>
 
-
+<script>
+    $('#idLocation').change(function(){
+        $('#LocationForm').submit();
+    });
+</script>
 #{get 'moreScripts' /}
 </body>
 </html>
