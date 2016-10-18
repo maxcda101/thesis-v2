@@ -57,6 +57,8 @@ public class Data extends Model {
         String sql="SELECT * FROM Data where '"+first+"' <timeCreate and timeCreate < '"+last+"' and sensor_id="+idSensor +" and node_id="+idNode+" and typeData_id="+idTypeData;
         Query query = em.createNativeQuery(sql,Data.class);
         List<Data> result = (List<Data>) query.getResultList();
+
+
         return result;
     }
 

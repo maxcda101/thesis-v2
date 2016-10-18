@@ -126,7 +126,7 @@ public class ApiMobile extends Controller {
 
     public static void sendFCM(String title, String body) {
 //        ApiEmbed.sendNotification(1L,title, body);
-        SendFCM.sendNotification(1L,title, body);
+        new SendFCM(1L,title, body).doJob();
         renderJSON("ok ");
     }
     public static void register(@Required String email,@Required String password,@Required String name,String address,String phone,String codeLocation){

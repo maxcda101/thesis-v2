@@ -12,7 +12,18 @@ import stateful.Stateful;
  * Created by AnhQuan on 9/16/2016.
  */
 public class SendFCM extends Job {
-    public static void sendNotification(Long idLocation, String title, String body) {
+    private static Long idLocation;
+    private static String title;
+    private static String body;
+
+    public SendFCM(Long idLocation, String title, String body) {
+        this.idLocation = idLocation;
+        this.title = title;
+        this.body = body;
+    }
+
+    @Override
+    public void doJob() {
         String json = "{\n" +
                 "  \"condition\": \"'" + idLocation + "' in topics\",\n" +
                 "  \"notification\": {\n" +

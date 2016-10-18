@@ -1,17 +1,112 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>#{get 'title' /}</title>
-        <meta charset="${_response_encoding}">
-        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
-        #{get 'moreStyles' /}
-        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-    </head>
-    <body>
-        #{doLayout /}
-        
-        <script src="@{'/public/javascripts/jquery-1.6.4.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-        #{get 'moreScripts' /}
-    </body>
+<head>
+    <title>#{get 'title' /}</title>
+    <meta charset="${_response_encoding}">
+    *{<meta name="viewport" content="width=device-width, initial-scale=1">}*
+    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/bootstrap.css'}">
+    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/bootstrap-select.css'}">
+    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/datepicker.css'}">
+    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/jquery.dynatable.css'}">
+    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main-admin.css'}">
+    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/play-pagination.css'}">
+    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/tableStyle.css'}">
+#{get 'moreStyles' /}
+    <link rel="shortcut icon"  href="@{'/public/images/favicon.ico'}">
+
+    <script src="@{'/public/javascripts/jquery-3.1.1.min.js'}" type="text/javascript"
+            charset="${_response_encoding}"></script>
+</head>
+<body>
+<header>
+    <div class="container-fluid" style="position: relative">
+        <a class="logo">
+            <img src="@{'/public/images/logo_funny.png'}" alt="">
+        </a>
+
+        <div style="float: right; display: inline-block;">
+            <span style="line-height: 45px; margin-right: 20px; color: #fff">Xin chào: ${session.name}</span>
+            <a href="#" style="line-height: 45px; color: #fff">Đăng xuất</a>
+        </div>
+        <div style="float: right; display: inline-block; margin: 8px 58px 8px 8px">
+            <select class="selectpicker show-tick" data-live-search="true" title="Chọn toà nhà ...">
+                <option data-tokens="ketchup mustard">Toà nhà 1</option>
+                <option data-tokens="mustard">Toà nhà 2</option>
+                <option data-tokens="frosting">Toà nhà 3</option>
+            </select>
+        </div>
+
+
+    </div>
+</header>
+<div class="wrapper-page" style="height: 100%;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="menu">
+                    <ul>
+                        <li>
+                            <a #{if request.action=="Application.index"}class="active"#{/if} href="@{Application.index()}">
+                                <span class="glyphicon glyphicon-home"></span>
+                                <span class="nav-item">Trang chủ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a #{if request.action=="Application.chart"}class="active"#{/if} href="@{Application.chart()}">
+                                <span class="glyphicon glyphicon-tower"></span>
+                                <span class="nav-item">Biểu đồ</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a #{if request.action=="Application.analytic"}class="active"#{/if} href="@{Application.analytic()}">
+                                <span class="glyphicon glyphicon-stats"></span>
+                                <span class="nav-item">Thống kê</span>
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a #{if request.action=="Application.root"}class="active"#{/if} href="@{Application.root()}">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                                <span class="nav-item">Thông tin root</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a #{if request.action=="Application.node"}class="active"#{/if} href="@{Application.node()}">
+                                <span class="glyphicon glyphicon-screenshot"></span>
+                                <span class="nav-item">Thông tin node</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a #{if request.action=="Application.user"}class="active"#{/if} href="@{Application.user()}">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <span class="nav-item">Người dùng</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="wrapper-content">
+                #{doLayout /}
+                </div>
+            </div>
+
+
+        </div>
+    *{Go to top}*
+    *{<div id="to-top">}*
+    *{<span class="glyphicon glyphicon-arrow-up"></span>}*
+    *{</div>}*
+    </div>
+</div>
+
+<script src="@{'/public/javascripts/lib/bootstrap.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/lib/bootstrap-select.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/lib/bootstrap-datepicker.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/lib/jquery.dynatable.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+
+
+#{get 'moreScripts' /}
+</body>
 </html>

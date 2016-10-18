@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/bootstrap.css'}">
+<style>
+
+    html {
+        background: rgba(23, 23, 23, 0.13); /* For browsers that do not support gradients */
+        background: -webkit-radial-gradient(rgba(23, 23, 23, 0.13) 40%, #ffffff 60%); /* Safari 5.1 to 6.0 */
+        background: -o-radial-gradient(rgba(23, 23, 23, 0.13) 40%, #ffffff 60%); /* For Opera 11.6 to 12.0 */
+        background: -moz-radial-gradient(rgba(23, 23, 23, 0.13) 40%, #ffffff 60%); /* For Firefox 3.6 to 15 */
+        background: radial-gradient(rgba(23, 23, 23, 0.13) 40%, #ffffff 60%); /* Standard syntax (must be last) */
+        width: 100%;
+        height: 100vh;
+    }
+
+    body {
+    }
+
+    .bound-login-form {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translateX(-50%) translateY(-50%);
+        -moz-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 300px;
+        display: table;
+        background: #fff;
+        border-radius: 6px;
+        border: 1px solid rgba(0, 0, 0, .125);
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        -o-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+        transition: all .5s ease;
+    }
+
+    .bound-lost-pass-form {
+        display: none;
+    }
+
+    .login-form {
+        padding: 0 15px;
+    }
+
+    .title-login {
+        text-align: center;
+        padding: 15px 0;
+        margin: 0 0 35px 0;
+        border-radius: 6px 6px 0 0;
+        display: block;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(0, 0, 0, .125);
+        background: rgba(23, 23, 23, 0.9);
+        color: #a0a0a0;
+    }
+    .lost-pass {
+        margin-top: 40px;
+        padding: 15px 0;
+        text-align: center;
+        border-top: 1px solid rgba(0, 0, 0, .125);
+    }
+    #lost-password, #return-login{
+        cursor: pointer;
+    }
+</style>
+<body>
+<div class="bound-login-form">
+    <span class="title-login">Đăng nhập tài khoản!</span>
+
+    <div class="login-form">
+    #{form @Application.login(), method:'POST', id:'LoginForm'}
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Mật khẩu</label>
+            <input type="password" name="password" class="form-control">
+        </div>
+        <span style="color: #a94442; font-style: italic;">${notification}</span>
+        <div style="text-align: center;">
+            <button type="submit" class="btn btn-primary" style="margin-top: 25px">Đăng nhập</button>
+        </div>
+    #{/form}
+        <div class="lost-pass">
+            <a id="lost-password">Quên mật khẩu</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

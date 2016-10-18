@@ -1,0 +1,27 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+<h3 style="text-transform: uppercase" class="text-center">Thông tin root</h3>
+<div class="form-group">
+    <button class="btn btn-primary">Thêm</button>
+</div>
+
+<table class="table table-bordered table-striped table-hover admin-table">
+    <thead>
+    <tr class="success">
+        <th>STT</th>
+        <th class="time-mo">Thời gian</th>
+        <th class="type-mo">Hành động</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>
+            <button class="btn">Sửa</button>
+            <button class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa không?');">Xoá</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

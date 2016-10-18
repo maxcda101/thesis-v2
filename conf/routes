@@ -3,7 +3,15 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
+GET     /                                           Application.index
+GET     /login                                      Application.login
+POST     /login                                      Application.login
+GET     /logout                                      Application.logout
+GET     /analytic                                   Application.analytic
+GET     /chart                                   Application.chart
+GET     /root                                       Application.root
+GET     /node                                       Application.node
+GET     /user                                       Application.user
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

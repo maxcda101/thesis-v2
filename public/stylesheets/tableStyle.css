@@ -1,0 +1,153 @@
+/* Data table style */
+.data_table
+{
+	background-color:#5A8698;
+	border-spacing:1px;
+}
+.data_table th.sortable
+{
+	cursor: pointer;
+}
+.data_table th.sort_asc
+{
+	background-image:url(../../../images/move_up.png);
+	background-repeat:no-repeat;
+	background-position:right center;
+	padding-right:16px;
+	background-color:#F0F8A8;
+}
+.data_table th.sort_desc
+{
+	background-image:url(../../../images/move_down.png);
+	background-repeat:no-repeat;
+	background-position:right center;
+	padding-right:16px;
+	background-color:#F0F8A8;
+}
+.data_table tr td,
+.data_table tr th
+{
+	color:#003368;
+	padding:3px 2px;
+}
+.data_table tr td.action
+{
+	padding:1px;
+	text-align: center;
+	white-space:nowrap;
+}
+.data_table tr td.action a
+{
+	padding:0px 2px;
+}
+.data_table tr:nth-child(even) td
+{
+	background-color:#E5F5FF;
+}
+.data_table tr:nth-child(odd) td
+{
+	background-color:#FFFFFF;
+}
+.data_table tr.group td
+{
+	background-color:#FFF5D5;
+	color:#CC0000;
+}
+.data_table tr:hover td,
+.data_table tr:nth-child(odd):hover td,
+.data_table tr:nth-child(even):hover td,
+.data_table tr.group:hover td
+{
+	background-color:BISQUE;
+}
+.data_table tr:nth-child(odd) td.int_total,
+.data_table tr:nth-child(odd) td.float_total,
+.data_table tr:nth-child(odd) td.date_total,
+.data_table tr:nth-child(odd) td.total,
+.data_table tr:nth-child(odd) td.int_total a,
+.data_table tr:nth-child(odd) td.float_total a,
+.data_table tr:nth-child(odd) td.date_total a,
+.data_table tr:nth-child(odd) td.total,
+.data_table tr:nth-child(even) td.int_total,
+.data_table tr:nth-child(even) td.float_total,
+.data_table tr:nth-child(even) td.date_total,
+.data_table tr:nth-child(even) td.total,
+.data_table tr:nth-child(even) td.int_total a,
+.data_table tr:nth-child(even) td.float_total a,
+.data_table tr:nth-child(even) td.date_total a,
+.data_table tr:nth-child(even) td.total,
+.data_table tr.group td.int_total a,
+.data_table tr.group td.float_total a,
+.data_table tr.group td.date_total a,
+.data_table tr.group td.total .data_table tr.group td.int_total,
+.data_table tr.group td.float_total,
+.data_table tr.group td.date_total,
+.data_table tr.group td.total
+{
+	color:#CC0000;
+}
+.data_table tr td.int,
+.data_table tr td.float,
+.data_table tr td.int_header,
+.data_table tr td.float_header,
+.data_table tr td.int_total,
+.data_table tr td.float_total
+{
+	text-align:right;
+}
+.data_table tr th,
+.data_table tr td.int_header,
+.data_table tr td.float_header,
+.data_table tr td.date_header,
+.data_table tr td.header
+{
+	background-color:#D8E0E8;
+	font-weight:bold;
+}
+.data_table tr
+{
+	height: 20px;
+}
+.data_table tr th
+{
+	text-align:center;
+}
+.data_table tr td.int_header,
+.data_table tr td.float_header,
+.data_table tr td.date_header,
+.data_table tr td.header
+{
+	vertical-align:top;
+}
+.data_table .long_string
+{
+	width:300px;
+	word-wrap:break-word;
+	white-space:normal;
+	max-height:32px;
+	overflow:auto;
+}
+.data_table tr.warning td
+{
+	background-color:#FFFF80;
+}
+.data_table tr.alert td
+{
+	background-color:YELLOW;
+}
+.data_table tr.error td
+{
+	background-color:PINK;
+}
+.panel_table
+{
+	background-color:#D8E0E8;
+	border:1px solid #5A8698;
+	padding:2px;
+}
+.panel_table .layout_script,
+.panel_table .layout_custom,
+.panel_table .layout_html,
+.panel_table .layout_label,
+.panel_table .layout_image,
+.panel_table .layout_control,

@@ -1,0 +1,11 @@
+%{
+if (_items != null) {
+  // wrap raw Lists with the Paginator class
+  if (_items instanceof List && !(_items instanceof modules.paginate.Paginator)) {
+    _items = new modules.paginate.ValuePaginator(_items);
+  }
+%}
+	#{include 'paginate/RowCountSummary.html' /}	
+%{  
+} 
+}%
