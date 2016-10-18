@@ -18,3 +18,4 @@ build.xml
 eclipse
 *.ipr
 *.iws
+precompiled
