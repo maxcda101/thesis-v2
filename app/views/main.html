@@ -64,10 +64,10 @@
                         </li>
 
                         <li>
-                        <a#{if request.action=="Application.analytic"}class="active"#{/if}
-                            href="@{Application.analytic()}">
-                            <span class="glyphicon glyphicon-stats"></span>
-                            <span class="nav-item">Thống kê</span>
+                            <a #{if request.action=="Application.analytic"}class="active"#{/if}
+                               href="@{Application.analytic()}">
+                                <span class="glyphicon glyphicon-stats"></span>
+                                <span class="nav-item">Thống kê</span>
                             </a>
                         </li>
 
@@ -122,7 +122,7 @@
         charset="${_response_encoding}"></script>
 
 <script>
-    $('#idLocation').change(function(){
+    $('#idLocation').change(function () {
         $('#LocationForm').submit();
     });
 </script>
