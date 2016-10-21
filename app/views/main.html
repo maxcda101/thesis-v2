@@ -29,17 +29,17 @@
             <a href="#" style="line-height: 45px; color: #fff">Đăng xuất</a>
         </div>
         <div style="float: right; display: inline-block; margin: 8px 58px 8px 8px">
-        #{list items:listLocation, as:'building'}
-            #{form @Application.selectLocation(), method:'POST', enctype:'multipart/form-data', id:'LocationForm'}
-                <select name="idLocation" id="idLocation" class="selectpicker show-tick" data-live-search="true"
-                        title="Chọn toà nhà ...">
 
+
+        #{form @Application.selectLocation(), method:'POST', enctype:'multipart/form-data', id:'LocationForm'}
+            <select id="idLocation" name="idLocation" class="selectpicker show-tick" data-live-search="true"
+                    title="Chọn toà nhà ...">
+                #{list items:listLocation, as:'location'}
                     <option value="${location.id}">${location.name}</option>
+                #{/list}
+            </select>
+        #{/form}
 
-                </select>
-                <input type="submit">
-            #{/form}
-        #{/list}
         </div>
 
 
@@ -67,10 +67,10 @@
                         </li>
 
                         <li>
-                        <a#{if request.action=="Application.analytic"}class="active"#{/if}
-                            href="@{Application.analytic()}">
-                            <span class="glyphicon glyphicon-stats"></span>
-                            <span class="nav-item">Thống kê</span>
+                            <a #{if request.action=="Application.analytic"}class="active"#{/if}
+                               href="@{Application.analytic()}">
+                                <span class="glyphicon glyphicon-stats"></span>
+                                <span class="nav-item">Thống kê</span>
                             </a>
                         </li>
 
@@ -125,7 +125,7 @@
         charset="${_response_encoding}"></script>
 
 <script>
-    $('#idLocation').change(function(){
+    $('#idLocation').change(function () {
         $('#LocationForm').submit();
     });
 </script>

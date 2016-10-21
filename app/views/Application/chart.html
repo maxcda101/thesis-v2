@@ -1,3 +1,122 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
+<script src="@{'/public/javascripts/lib/Chart.bundle.min.js'}" type="text/javascript"
+        charset="${_response_encoding}"></script>
+<style>
+    canvas{
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+</style>
+
+<script>
+    var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    var config = {
+        type: 'line',
+        data: {
+            labels: [["June","2015"], "July", "August", "September", "October", "November", "December", ["January","2016"],"February", "March", "April", "May"],
+            datasets: [{
+                label: "My First dataset",
+                data: [10, 20, 10, 30, 50, 10, 40, 90, 70, 50, 63, 5],
+                fill: false,
+                borderDash: [5, 5],
+                borderColor: 'blue',
+                pointBorderColor: 'blue',
+                pointBackgroundColor: 'white',
+                backgroundColor: 'rgba(0, 0, 0, 0)',
+            }, {
+                hidden: true,
+                borderColor: 'red',
+                backgroundColor: 'rgba(0, 0, 0, 0)',
+                pointBorderColor: 'red',
+                pointBackgroundColor: 'white',
+                label: 'hidden dataset',
+                data: [0, 90, 70, 150, 130, 70, 90, 180, 160, 50, 30, 10],
+            }, {
+                label: "My Second dataset",
+                borderColor: 'green',
+                pointBorderColor: 'green',
+                pointBackgroundColor: 'white',
+                backgroundColor: 'rgba(0, 0, 0, 0)',
+                data: [200, 90, 130, 60, 90, 100, 140, 160, 180, 130, 80, 50],
+            }]
+        },
+        options: {
+            responsive: true,
+//            title:{
+//                display:true,
+//                text:'Chart.js Line Chart'
+//            },
+            tooltips: {
+                mode: 'label',
+                callbacks: {
+                    // beforeTitle: function() {
+                    //     return '...beforeTitle';
+                    // },
+                    // afterTitle: function() {
+                    //     return '...afterTitle';
+                    // },
+                    // beforeBody: function() {
+                    //     return '...beforeBody';
+                    // },
+                    // afterBody: function() {
+                    //     return '...afterBody';
+                    // },
+                    // beforeFooter: function() {
+                    //     return '...beforeFooter';
+                    // },
+                    // footer: function() {
+                    //     return 'Footer';
+                    // },
+                    // afterFooter: function() {
+                    //     return '...afterFooter';
+                    // },
+                }
+            },
+            hover: {
+                mode: 'dataset'
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        show: true,
+                        labelString: 'Month'
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        show: true,
+                        labelString: 'Value'
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 250,
+                    }
+                }]
+            }
+        }
+    };
+
+//    $.each(config.data.datasets, function(i, dataset) {
+//        dataset.borderColor = randomColor(0.4);
+//        dataset.backgroundColor = randomColor(0.5);
+//        dataset.pointBorderColor = randomColor(0.7);
+//        dataset.pointBackgroundColor = randomColor(0.5);
+//        dataset.pointBorderWidth = 1;
+//    });
+
+    window.onload = function() {
+        var ctx = document.getElementById("canvas").getContext("2d");
+        window.myLine = new Chart(ctx, config);
+    };
+
+</script>
 <h3 style="text-transform: uppercase" class="text-center">Biểu đồ</h3>
+<div style="width:100%;">
+    <canvas id="canvas"></canvas>
+</div>
+
