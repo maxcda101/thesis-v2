@@ -4,14 +4,16 @@
 <head>
     <title>#{get 'title' /}</title>
     <meta charset="${_response_encoding}">
-*{<meta name="viewport" content="width=device-width, initial-scale=1">}*
+    *{
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    }*
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/bootstrap.css'}">
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/bootstrap-select.css'}">
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/datepicker.css'}">
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/lib/jquery.dynatable.css'}">
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main-admin.css'}">
     <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/tableStyle.css'}">
-#{get 'moreStyles' /}
+    #{get 'moreStyles' /}
     <link rel="shortcut icon" href="@{'/public/images/favicon.ico'}">
 
     <script src="@{'/public/javascripts/jquery-3.1.1.min.js'}" type="text/javascript"
@@ -31,14 +33,13 @@
         <div style="float: right; display: inline-block; margin: 8px 58px 8px 8px">
 
 
-        #{form @Application.selectLocation(), method:'POST', enctype:'multipart/form-data', id:'LocationForm'}
-            <select id="idLocation" name="idLocation" class="selectpicker show-tick" data-live-search="true"
-                    title="Chọn toà nhà ...">
+            #{form @Application.selectLocation(), method:'POST', enctype:'multipart/form-data', id:'LocationForm'}
+            <select id="idLocation" name="idLocation" class="selectpicker show-tick" data-live-search="true">
                 #{list items:listLocation, as:'location'}
-                    <option value="${location.id}">${location.name}</option>
+                <option value="${location.id}">${location.name}</option>
                 #{/list}
             </select>
-        #{/form}
+            #{/form}
 
         </div>
 
@@ -53,14 +54,16 @@
                     <ul>
                         <li>
                             <a
-                            #{if request.action=="Application.index"}class="active"#{/if} href="@{Application.index()}">
+                                    #{if request.action=="Application.index"}class="active"#{/if}
+                                    href="@{Application.index()}">
                                 <span class="glyphicon glyphicon-home"></span>
                                 <span class="nav-item">Trang chủ</span>
                             </a>
                         </li>
                         <li>
                             <a
-                            #{if request.action=="Application.chart"}class="active"#{/if} href="@{Application.chart()}">
+                                    #{if request.action=="Application.chart"}class="active"#{/if}
+                                    href="@{Application.chart()}">
                                 <span class="glyphicon glyphicon-tower"></span>
                                 <span class="nav-item">Biểu đồ</span>
                             </a>
@@ -77,21 +80,24 @@
 
                         <li>
                             <a
-                            #{if request.action=="Application.root"}class="active"#{/if} href="@{Application.root()}">
+                                    #{if request.action=="Application.root"}class="active"#{/if}
+                                    href="@{Application.root()}">
                                 <span class="glyphicon glyphicon-info-sign"></span>
                                 <span class="nav-item">Thông tin root</span>
                             </a>
                         </li>
                         <li>
                             <a
-                            #{if request.action=="Application.node"}class="active"#{/if} href="@{Application.node()}">
+                                    #{if request.action=="Application.node"}class="active"#{/if}
+                                    href="@{Application.node()}">
                                 <span class="glyphicon glyphicon-screenshot"></span>
                                 <span class="nav-item">Thông tin node</span>
                             </a>
                         </li>
                         <li>
                             <a
-                            #{if request.action=="Application.user"}class="active"#{/if} href="@{Application.user()}">
+                                    #{if request.action=="Application.user"}class="active"#{/if}
+                                    href="@{Application.user()}">
                                 <span class="glyphicon glyphicon-user"></span>
                                 <span class="nav-item">Người dùng</span>
                             </a>
@@ -101,7 +107,7 @@
                 <div class="wrapper-content">
                     <div class="row">
                         <div class="col-md-12">
-                        #{doLayout /}
+                            #{doLayout /}
                         </div>
                     </div>
                 </div>
@@ -109,10 +115,13 @@
 
 
         </div>
-    *{Go to top}*
-    *{<div id="to-top">}*
-    *{<span class="glyphicon glyphicon-arrow-up"></span>}*
-    *{</div>}*
+        *{Go to top}*
+        *{
+        <div id="to-top">}*
+            *{<span class="glyphicon glyphicon-arrow-up"></span>}*
+            *{
+        </div>
+        }*
     </div>
 </div>
 
@@ -128,6 +137,7 @@
     $('#idLocation').change(function () {
         $('#LocationForm').submit();
     });
+
 </script>
 #{get 'moreScripts' /}
 </body>

@@ -3,7 +3,7 @@
 <h1>${location.name}</h1>
 <h3>${location.address}</h3>
 
-<h3>${new Date()}</h3>
+<h3>${(new Date()).format('dd-MM-yyyy HH:mm:ss')}</h3>
 
 <p><span class="glyphicon glyphicon-certificate"></span> Nhiệt độ: ${temp}</p>
 <p><span class="glyphicon glyphicon-tint"></span> Độ ẩm: ${humi}</p>

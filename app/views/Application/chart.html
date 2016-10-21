@@ -8,115 +8,158 @@
         -webkit-user-select: none;
         -ms-user-select: none;
     }
+
+
 </style>
 
 <script>
-    var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    var config = {
-        type: 'line',
-        data: {
-            labels: [["June","2015"], "July", "August", "September", "October", "November", "December", ["January","2016"],"February", "March", "April", "May"],
-            datasets: [{
-                label: "My First dataset",
-                data: [10, 20, 10, 30, 50, 10, 40, 90, 70, 50, 63, 5],
-                fill: false,
-                borderDash: [5, 5],
-                borderColor: 'blue',
-                pointBorderColor: 'blue',
-                pointBackgroundColor: 'white',
-                backgroundColor: 'rgba(0, 0, 0, 0)',
-            }, {
-                hidden: true,
-                borderColor: 'red',
-                backgroundColor: 'rgba(0, 0, 0, 0)',
-                pointBorderColor: 'red',
-                pointBackgroundColor: 'white',
-                label: 'hidden dataset',
-                data: [0, 90, 70, 150, 130, 70, 90, 180, 160, 50, 30, 10],
-            }, {
-                label: "My Second dataset",
-                borderColor: 'green',
-                pointBorderColor: 'green',
-                pointBackgroundColor: 'white',
-                backgroundColor: 'rgba(0, 0, 0, 0)',
-                data: [200, 90, 130, 60, 90, 100, 140, 160, 180, 130, 80, 50],
-            }]
-        },
-        options: {
-            responsive: true,
-//            title:{
-//                display:true,
-//                text:'Chart.js Line Chart'
-//            },
-            tooltips: {
-                mode: 'label',
-                callbacks: {
-                    // beforeTitle: function() {
-                    //     return '...beforeTitle';
-                    // },
-                    // afterTitle: function() {
-                    //     return '...afterTitle';
-                    // },
-                    // beforeBody: function() {
-                    //     return '...beforeBody';
-                    // },
-                    // afterBody: function() {
-                    //     return '...afterBody';
-                    // },
-                    // beforeFooter: function() {
-                    //     return '...beforeFooter';
-                    // },
-                    // footer: function() {
-                    //     return 'Footer';
-                    // },
-                    // afterFooter: function() {
-                    //     return '...afterFooter';
-                    // },
-                }
-            },
-            hover: {
-                mode: 'dataset'
-            },
-            scales: {
-                xAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        show: true,
-                        labelString: 'Month'
-                    }
-                }],
-                yAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        show: true,
-                        labelString: 'Value'
-                    },
-                    ticks: {
-                        suggestedMin: 0,
-                        suggestedMax: 250,
-                    }
+    var tempMedium=[];
+    var tempMin=[];
+    var tempMax=[];
+    var airMedium=[]
+    var airMin=[];
+    var airMax=[];
+    var humiMedium=[];
+    var humiMin=[];
+    var humiMax=[];
+
+    #{list items:tempMedium, as:'item'}
+        tempMedium.push(${item.value});
+    #{/list}
+    #{list items:tempMax, as:'item'}
+        tempMax.push(${item.value});
+    #{/list}
+    #{list items:tempMin, as:'item'}
+        tempMin.push(${item.value});
+    #{/list}
+    #{list items:airMedium, as:'item'}
+        airMedium.push(${item.value});
+    #{/list}
+    #{list items:airMax, as:'item'}
+        airMax.push(${item.value});
+    #{/list}
+    #{list items:airMin, as:'item'}
+        airMin.push(${item.value});
+    #{/list}
+    #{list items:humiMedium, as:'item'}
+        humiMedium.push(${item.value});
+    #{/list}
+    #{list items:humiMax, as:'item'}
+        humiMax.push(${item.value});
+    #{/list}
+    #{list items:humiMin, as:'item'}
+        humiMin.push(${item.value});
+    #{/list}
+
+    var MONTHS = ["00:00","1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00"
+    , "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00","23:00"];
+
+    function myFunction(medium,max,min, a, b ,c) {
+        var config = {
+            type: 'line',
+            data: {
+                labels: MONTHS,
+                datasets: [{
+                    label: medium,
+                    data: a,
+                    borderColor: 'yellow',
+                    pointBorderColor: 'yellow',
+                    pointBackgroundColor: 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                }, {
+                    borderColor: 'red',
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    pointBorderColor: 'red',
+                    pointBackgroundColor: 'white',
+                    label: max,
+                    data: b,
+                }, {
+                    label: min,
+                    borderColor: 'green',
+                    pointBorderColor: 'green',
+                    pointBackgroundColor: 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    data: c,
                 }]
-            }
-        }
-    };
+            },
+            options: {
+                responsive: true,
+    //            title:{
+    //                display:true,
+    //                text:'Chart.js Line Chart'
+    //            },
+                tooltips: {
+                    mode: 'label',
+                    callbacks: {
 
-//    $.each(config.data.datasets, function(i, dataset) {
-//        dataset.borderColor = randomColor(0.4);
-//        dataset.backgroundColor = randomColor(0.5);
-//        dataset.pointBorderColor = randomColor(0.7);
-//        dataset.pointBackgroundColor = randomColor(0.5);
-//        dataset.pointBorderWidth = 1;
-//    });
+                    }
+                },
+                hover: {
+                    mode: 'dataset'
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            show: true,
+                            labelString: 'Giờ'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            show: true,
+                            labelString: 'Giá trị'
+                        },
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 50,
+                        }
+                    }]
+                }
+            }
+        };
+        return config;
+    }
 
     window.onload = function() {
-        var ctx = document.getElementById("canvas").getContext("2d");
-        window.myLine = new Chart(ctx, config);
+        var ctxAir = document.getElementById("air").getContext("2d");
+        var ctxTemp = document.getElementById("temp").getContext("2d");
+        var ctxHumi = document.getElementById("humi").getContext("2d");
+
+        var configTemp=myFunction("Nhiệt độ trung bình","Nhiệt độ cao nhất","Nhiệt độ thấp nhất",tempMedium,tempMax,tempMin );
+        var configAir=myFunction("Không khi trung bình","Không khi cao nhất","Không khi thấp nhất",airMedium,airMax,airMin );
+        var configHumi=myFunction("Độ ẩm trung bình","Độ ẩm cao nhất","Độ ẩm thấp nhất",humiMedium,humiMax,humiMin );
+
+        window.myLine = new Chart(ctxAir, configAir);
+        window.myLine = new Chart(ctxTemp, configTemp);
+        window.myLine = new Chart(ctxHumi, configHumi);
     };
 
 </script>
+
+<select id="idLocation" name="idLocation" class="selectpicker show-tick" data-live-search="true"
+>
+    #{list items:listNode, as:'node'}
+    <option value="${node.id}">${node.name}</option>
+    #{/list}
+</select>
+
 <h3 style="text-transform: uppercase" class="text-center">Biểu đồ</h3>
-<div style="width:100%;">
-    <canvas id="canvas"></canvas>
+<div style="width:100%;margin-top: 50px;">
+    <canvas id="air"></canvas>
 </div>
+<h4 class="text-center">Biểu đồ chất lượng không khí</h4>
+
+<div style="width:100%;margin-top: 50px;">
+    <canvas id="temp"></canvas>
+</div>
+<h4 class="text-center">Biểu đồ nhiệt độ</h4>
+
+<div style="width:100%; margin-top: 50px;">
+    <canvas id="humi"></canvas>
+</div>
+<h4  class="text-center">Biểu đồ độ ẩm</h4>
+
 

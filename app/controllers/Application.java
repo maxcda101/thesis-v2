@@ -1,6 +1,7 @@
 package controllers;
 
 import modules.paginate.ModelPaginator;
+import org.joda.time.MutableDateTime;
 import play.*;
 import play.data.binding.As;
 import play.db.jpa.JPA;
@@ -110,12 +111,12 @@ public class Application extends Controller {
     }
 
     public static void analytic(@As("dd-MM-yyyy") Date startDate, @As("dd-MM-yyyy") Date endDate, Long idNode) {
-        String notification=null;
-        if(startDate==null){
-            startDate=new Date();
+        String notification = null;
+        if (startDate == null) {
+            startDate = new Date();
         }
-        if(endDate==null){
-            endDate=new Date();
+        if (endDate == null) {
+            endDate = new Date();
         }
         if (startDate.compareTo(endDate) > 0) {
             notification = "Thời gian bắt đầu và kết thúc không hợp lệ.";
@@ -126,11 +127,11 @@ public class Application extends Controller {
             idNode = listNode.get(0).id;
         }
         ModelPaginator data = null;
-        data = new ModelPaginator(Data.class, "node_id = ? and typeData_id = ? and DATE(timeCreate) between ? and ?",idNode,3, startDate, endDate).orderBy("id desc");
-        render(startDate,endDate,data,listNode);
+        data = new ModelPaginator(Data.class, "node_id = ? and typeData_id = ? and DATE(timeCreate) between ? and ?", idNode, 3, startDate, endDate).orderBy("id desc");
+        render(startDate, endDate, data, listNode);
     }
 
-    public static void chart(@As("yyyy-DD-mm") Date date, Long idNode) {
+    public static void chart(@As("dd-MM-yyyy") Date date, Long idNode) {
         if (date == null) {
             date = new Date();
         }
@@ -138,17 +139,33 @@ public class Application extends Controller {
         if (idNode == null || idNode == 0l) {
             idNode = listNode.get(0).id;
         }
-        List<Data> tempMedium = Data.getDataByDay(date.getDate(), date.getMonth(), date.getYear(), 2l, idNode, 1l);
-        List<Data> tempMin = Data.getDataByDay(date.getDate(), date.getMonth(), date.getYear(), 2l, idNode, 4l);
-        List<Data> tempMax = Data.getDataByDay(date.getDate(), date.getMonth(), date.getYear(), 2l, idNode, 5l);
+        MutableDateTime timeObj = new MutableDateTime(date);
+        int day = timeObj.getDayOfMonth();
+        int month = timeObj.getMonthOfYear();
+        int year = timeObj.getYear();
+        List<Data> tempMedium = Data.getDataByDay(day, month, year, 2l, idNode, 1l);
+        List<Data> tempMin = Data.getDataByDay(day, month, year, 2l, idNode, 4l);
+        List<Data> tempMax = Data.getDataByDay(day, month, year, 2l, idNode, 5l);
 
-        List<Data> airMedium = Data.getDataByDay(date.getDate(), date.getMonth(), date.getYear(), 1l, idNode, 1l);
-        List<Data> airMin = Data.getDataByDay(date.getDate(), date.getMonth(), date.getYear(), 1l, idNode, 4l);
-        List<Data> airMax = Data.getDataByDay(date.getDate(), date.getMonth(), date.getYear(), 1l, idNode, 5l);
+        List<Data> airMedium = Data.getDataByDay(day, month, year, 1l, idNode, 1l);
+        List<Data> airMin = Data.getDataByDay(day, month, year, 1l, idNode, 4l);
+        List<Data> airMax = Data.getDataByDay(day, month, year, 1l, idNode, 5l);
 
-        List<Data> humiMedium = Data.getDataByDay(date.getDate(), date.getMonth(), date.getYear(), 3l, idNode, 1l);
-        List<Data> humiMin = Data.getDataByDay(date.getDate(), date.getMonth(), date.getYear(), 3l, idNode, 4l);
-        List<Data> humiMax = Data.getDataByDay(date.getDate(), date.getMonth(), date.getYear(), 3l, idNode, 5l);
+        List<Data> humiMedium = Data.getDataByDay(day, month, year, 3l, idNode, 1l);
+        List<Data> humiMin = Data.getDataByDay(day, month, year, 3l, idNode, 4l);
+        List<Data> humiMax = Data.getDataByDay(day, month, year, 3l, idNode, 5l);
+
+
+        tempMedium=convertData(tempMedium);
+        tempMin = convertData(tempMin);
+        tempMax = convertData(tempMax);
+        airMedium = convertData(airMedium);
+        airMin = convertData(airMin);
+        airMax = convertData(airMax);
+        humiMedium = convertData(humiMedium);
+        humiMin = convertData(humiMin);
+        humiMax = convertData(humiMax);
+
         render(listNode, date, tempMedium, tempMin, tempMax, airMedium, airMin, airMax, humiMedium, humiMin, humiMax);
     }
 
@@ -164,5 +181,20 @@ public class Application extends Controller {
         render();
     }
 
+    private static List<Data> convertData(List<Data> listOld) {
+        List<Data> listNew = new ArrayList<Data>();
+
+        Data data = new Data(0, null);
+        for (int i = 0; i < 24; i++) {
+            listNew.add(data);
+        }
+        for (Data d : listOld) {
+            int index = d.timeCreate.getHours();
+            listNew.remove(index);
+            listNew.add(index, d);
+        }
+        return listNew;
+
+    }
 
 }
