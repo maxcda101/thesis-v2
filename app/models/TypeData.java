@@ -9,6 +9,6 @@ import javax.persistence.Entity;
  */
 @Entity
 public class TypeData extends Model{
-    String name;
-    String description;
+    public String name;
+    public String description;
 }

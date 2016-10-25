@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import entities.DataEmbed;
 import entities.Response;
 import jobs.SendFCM;
+import jobs.UpdateData;
 import models.Data;
 import play.Logger;
 import play.cache.Cache;
@@ -19,6 +20,7 @@ import sun.rmi.runtime.Log;
 import utils.DateFormat;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -50,22 +52,24 @@ public class ApiEmbed extends Controller {
         }
         if (data.sensor.id == 1 && (Cache.get(data.node.id + "") == null || !Cache.get(data.node.id + "").equals(rank))) {
             Logger.info("Cache air: " + Cache.get(data.node.id + ""));
-            Cache.add(data.node.id + "", rank);
+            Cache.set(data.node.id + "", rank);
             SendFCM sendFCM = null;
+
+            java.text.DateFormat format=new SimpleDateFormat("HH:mm");
             switch (rank) {
                 case 3:
-                    sendFCM = new SendFCM(data.node.root.location.id, "Thông báo node " + data.node.name, "Không khí trong lành");
+                    sendFCM = new SendFCM(data.node.root.location.id, format.format(new Date())+" Thông báo " + data.node.name, "Không khí trong lành");
                     break;
                 case 2:
-                    sendFCM = new SendFCM(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Không khí đang bị ô nhiễm mức thấp: " + data.value);
+                    sendFCM = new SendFCM(data.node.root.location.id,format.format(new Date())+ " Cảnh báo " + data.node.name, "Không khí đang bị ô nhiễm mức thấp: " + data.value);
                     break;
                 case 1:
-                    sendFCM = new SendFCM(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Không khí đang bị ô nhiễm mắc cao: " + data.value);
+                    sendFCM = new SendFCM(data.node.root.location.id,format.format(new Date())+ " Cảnh báo " + data.node.name, "Không khí đang bị ô nhiễm mắc cao: " + data.value);
                     break;
                 case 0:
-                    sendFCM = new SendFCM(data.node.root.location.id, "Cảnh báo node " + data.node.name, "Mất tín hiệu");
+                    sendFCM = new SendFCM(data.node.root.location.id,format.format(new Date())+ " Cảnh báo " + data.node.name, "Mất tín hiệu");
             }
-            sendFCM.doJob();
+            sendFCM.now();
         }
         if (data.save() != null) {
             renderJSON(new Response(1, "Success"));
@@ -82,14 +86,14 @@ public class ApiEmbed extends Controller {
         Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<DataEmbed>>() {
         }.getType();
-        List<DataEmbed> listDataEmbed = gson.fromJson(datas, listType);
-        for (DataEmbed dataEmbed : listDataEmbed) {
-            try {
-                dataEmbed.convertData().save();
-            } catch (Exception e) {
-                Logger.error(e.getMessage(), "ERROR");
-                renderJSON(new Response(2, "Error"));
-            }
+        List<DataEmbed> listDataEmbed;
+        try {
+            listDataEmbed = gson.fromJson(datas, listType);
+            new UpdateData(listDataEmbed).now();
+        } catch (Exception e) {
+            Logger.error(e,"Error");
+            renderJSON(new Response(2, "Json format exepttion"));
+
         }
         Logger.info("Syschonize success ");
         renderJSON(new Response(1, "Success"));

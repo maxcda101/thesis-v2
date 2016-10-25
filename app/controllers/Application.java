@@ -51,12 +51,11 @@ public class Application extends Controller {
             float total = 0;
             int i = 0;
             for (Node node : listNode) {
-                List<Data> listData = Data.find(" node_id = ? and sensor_id = ? and timeCreate> ? and typeData_id = 3 order by timeCreate desc", node.id, sensor.id, date).fetch();
+                List<Data> listData = Data.find("node = ? and sensor = ? and timeCreate> ? and typeData =? order by timeCreate desc", node, sensor, date,TypeData.findById(3l)).fetch();
                 if (!listData.isEmpty()) {
                     Data data = listData.get(0);
                     total += data.value;
                     i++;
-
                 }
             }
             if (i == 0) {
@@ -110,7 +109,7 @@ public class Application extends Controller {
         login(null, null);
     }
 
-    public static void analytic(@As("dd-MM-yyyy") Date startDate, @As("dd-MM-yyyy") Date endDate, Long idNode) {
+    public static void analytic(@As("dd-MM-yyyy") Date startDate, @As("dd-MM-yyyy") Date endDate, Long idNode, String commandCode) {
         String notification = null;
         if (startDate == null) {
             startDate = new Date();
@@ -126,8 +125,13 @@ public class Application extends Controller {
         if (idNode == null || idNode == 0l) {
             idNode = listNode.get(0).id;
         }
+
         ModelPaginator data = null;
-        data = new ModelPaginator(Data.class, "node_id = ? and typeData_id = ? and DATE(timeCreate) between ? and ?", idNode, 3, startDate, endDate).orderBy("id desc");
+
+        if (commandCode != null && ("action".equalsIgnoreCase(commandCode))) {
+            data = new ModelPaginator(Data.class, "node_id = ? and typeData_id = ? and DATE(timeCreate) between ? and ?", idNode, 3, startDate, endDate).orderBy("id desc");
+        }
+
         render(startDate, endDate, data, listNode);
     }
 
@@ -139,6 +143,7 @@ public class Application extends Controller {
         if (idNode == null || idNode == 0l) {
             idNode = listNode.get(0).id;
         }
+        Node node=Node.findById(idNode);
         MutableDateTime timeObj = new MutableDateTime(date);
         int day = timeObj.getDayOfMonth();
         int month = timeObj.getMonthOfYear();
@@ -156,7 +161,7 @@ public class Application extends Controller {
         List<Data> humiMax = Data.getDataByDay(day, month, year, 3l, idNode, 5l);
 
 
-        tempMedium=convertData(tempMedium);
+        tempMedium = convertData(tempMedium);
         tempMin = convertData(tempMin);
         tempMax = convertData(tempMax);
         airMedium = convertData(airMedium);
@@ -166,7 +171,26 @@ public class Application extends Controller {
         humiMin = convertData(humiMin);
         humiMax = convertData(humiMax);
 
-        render(listNode, date, tempMedium, tempMin, tempMax, airMedium, airMin, airMax, humiMedium, humiMin, humiMax);
+        MutableDateTime objectTime=new MutableDateTime(new Date());
+        objectTime.addMinutes(-10);
+        Date dateNow=objectTime.toDate();
+        Data temp=Data.find("node = ? AND sensor = ? AND timeCreate > ? AND typeData= ? order by timeCreate desc", node, Sensor.findById(2l), dateNow, TypeData.findById(3l)).first();
+        Data humi=Data.find("node = ? AND sensor = ? AND timeCreate > ? AND typeData= ? order by timeCreate desc", node, Sensor.findById(3l), dateNow, TypeData.findById(3l)).first();
+        Data air=Data.find("node = ? AND sensor = ? AND timeCreate > ? AND typeData= ? order by timeCreate desc", node, Sensor.findById(1l), dateNow, TypeData.findById(3l)).first();
+        if(temp==null){
+            temp=new Data();
+            temp.value=-1;
+        }
+        if(humi==null){
+            humi=new Data();
+            humi.value=-1;
+        }
+        if(air==null){
+            air=new Data();
+            air.value=-1;
+        }
+
+        render(temp, humi, air, node,listNode, date, tempMedium, tempMin, tempMax, airMedium, airMin, airMax, humiMedium, humiMin, humiMax);
     }
 
     public static void root() {

@@ -36,7 +36,7 @@ public class ApiMobile extends Controller {
         if (validation.hasErrors()) {
             renderJSON(new Response(2, "Validate error"));
         }
-        Date date = new Date(new Date().getTime() - 15 * 60000);
+        Date date = new Date(new Date().getTime() - 10 * 60000);
         String sdate = "'" + DateFormat.DateToString(date) + "'";
 
         List<Data> listValue = new ArrayList<Data>();
@@ -105,7 +105,7 @@ public class ApiMobile extends Controller {
             float total = 0;
             int i = 0;
             for (Node node : listNode) {
-                String sql = "SELECT * FROM Data WHERE node_id=" + node.id + " and sensor_id=" + sensor.id + " and timeCreate >" + sdate + " and typeData_id=" + 3 + " order by timeCreate desc limit 1";
+                String sql = "FROM Data WHERE node_id=" + node.id + " and sensor_id=" + sensor.id + " and timeCreate >" + sdate + " and typeData_id=" + 3 + " order by timeCreate desc limit 1";
                 Query query = em.createNativeQuery(sql, Data.class);
                 List<Data> listData = query.getResultList();
                 if (!listData.isEmpty()) {

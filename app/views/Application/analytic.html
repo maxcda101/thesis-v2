@@ -16,6 +16,7 @@
 <div class="admin-form-group">
     <div class="wrapper-search">
         <div class="form-inline">
+            <input type="hidden" name="commandCode" value="action"/>
             <label>Từ Ngày:</label>
             <input type="text" value="${startDate.format('dd-MM-yyyy')}" name="startDate"
                    class="form-control admin-input" id="dp1">
@@ -26,7 +27,7 @@
         <div class="form-inline">
 
                 <select name="idNode" class="selectpicker show-tick" data-live-search="true"
-                        title="Chọn node ...">
+                        >
                     #{list items:listNode, as:'node'}
                     <option value="${node.id}">${node.name}</option>
                     #{/list}

@@ -1,6 +1,7 @@
 package jobs;
 
 import models.Data;
+import org.joda.time.MutableDateTime;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.jobs.Every;
@@ -31,6 +32,9 @@ public class HanderOneHour extends Job {
         query = em.createNativeQuery("SELECT Distinct node_id FROM Data where '" + timeOld + "' < timeCreate and timeCreate < '" + timeNew + "' and typeData_id=3");
         List<Number> listNode = (List<Number>) query.getResultList();
 
+        MutableDateTime objectTIme=new MutableDateTime(new Date());
+        objectTIme.addHours(-1);
+
         for (Number i : listNode) {
             long idNode = i.longValue();
             for (Number j : listSensor) {
@@ -39,21 +43,22 @@ public class HanderOneHour extends Job {
                 List<Data> listData = (List<Data>) query.getResultList();
                 float value = calculateMedium(listData);
                 if (value != 0) {
-                    Data data = new Data(value, new Date(), new Date(), idNode, idSensor, 1L);
+                    Data data = new Data(value, objectTIme.toDate(), new Date(), idNode, idSensor, 1L);
                     data.save();
                 }
                 value = minValue(listData);
                 if (value != 0) {
-                    Data data = new Data(value, new Date(), new Date(), idNode, idSensor, 4L);
+                    Data data = new Data(value, objectTIme.toDate(), new Date(), idNode, idSensor, 4L);
                     data.save();
                 }
                 value = maxValue(listData);
                 if (value != 0) {
-                    Data data = new Data(value, new Date(), new Date(), idNode, idSensor, 5L);
+                    Data data = new Data(value, objectTIme.toDate(), new Date(), idNode, idSensor, 5L);
                     data.save();
                 }
             }
         }
+        Logger.info("Job ONE HOUR finished: ", DateFormat.DateToString(new Date()));
     }
 
     private float minValue(List<Data> list) {
