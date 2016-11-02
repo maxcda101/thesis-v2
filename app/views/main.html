@@ -28,7 +28,7 @@
 
         <div style="float: right; display: inline-block;">
             <span style="line-height: 45px; margin-right: 20px; color: #fff">Xin chào: ${session.name}</span>
-            <a href="#" style="line-height: 45px; color: #fff">Đăng xuất</a>
+            <a href="/logout" style="line-height: 45px; color: #fff">Đăng xuất</a>
         </div>
         <div style="float: right; display: inline-block; margin: 8px 58px 8px 8px">
 
@@ -62,19 +62,51 @@
                         </li>
                         <li>
                             <a
-                                    #{if request.action=="Application.chart"}class="active"#{/if}
-                                    href="@{Application.chart()}">
-                                <span class="glyphicon glyphicon-tower"></span>
-                                <span class="nav-item">Biểu đồ</span>
+                                    #{if request.action=="Application.realtimeNode"}class="active"#{/if}
+                                    href="@{Application.realtimeNode()}">
+                                <span class="glyphicon glyphicon-home"></span>
+                                <span class="nav-item">Thông tin hiện tại Node</span>
                             </a>
                         </li>
-
                         <li>
-                            <a #{if request.action=="Application.analytic"}class="active"#{/if}
-                               href="@{Application.analytic()}">
+                            <a>
                                 <span class="glyphicon glyphicon-stats"></span>
                                 <span class="nav-item">Thống kê</span>
                             </a>
+
+                            <!--//todo: sửa giúp e-->
+                            <ul class="ul-dt">
+                                <li>
+                                    <a
+                                            #{if request.action=="Application.chart"}class="active"#{/if}
+                                            href="@{Application.chart()}">
+                                        <!--<span class="glyphicon glyphicon-tower"></span>-->
+                                        <span class="nav-item">Biểu đồ theo giờ</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                            #{if request.action=="Application.partOfTheDay"}class="active"#{/if}
+                                            href="@{Application.partOfTheDay()}">
+                                        <!--<span class="glyphicon glyphicon-tower"></span>-->
+                                        <span class="nav-item">Biểu đồ theo buổi</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a #{if request.action=="Application.analytic"}class="active"#{/if}
+                                       href="@{Application.analytic()}">
+                                        <!--<span class="glyphicon glyphicon-stats"></span>-->
+                                        <span class="nav-item">Dạng bảng</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a #{if request.action=="Application.analytic"}class="active"#{/if}
+                                       href="@{Application.dangerous()}">
+                                        <!--<span class="glyphicon glyphicon-stats"></span>-->
+                                        <span class="nav-item">Dữ liệu xấu</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
 
@@ -83,7 +115,7 @@
                                     #{if request.action=="Application.root"}class="active"#{/if}
                                     href="@{Application.root()}">
                                 <span class="glyphicon glyphicon-info-sign"></span>
-                                <span class="nav-item">Thông tin root</span>
+                                <span class="nav-item">Thông tin các Root</span>
                             </a>
                         </li>
                         <li>
@@ -91,7 +123,15 @@
                                     #{if request.action=="Application.node"}class="active"#{/if}
                                     href="@{Application.node()}">
                                 <span class="glyphicon glyphicon-screenshot"></span>
-                                <span class="nav-item">Thông tin node</span>
+                                <span class="nav-item">Thông tin các Node</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                    #{if request.action=="Application.hardware"}class="active"#{/if}
+                                    href="@{Application.hardware()}">
+                                <span class="glyphicon glyphicon-screenshot"></span>
+                                <span class="nav-item">Cảm biến và ngoại vi</span>
                             </a>
                         </li>
                         <li>
@@ -137,6 +177,8 @@
     $('#idLocation').change(function () {
         $('#LocationForm').submit();
     });
+
+
 
 </script>
 #{get 'moreScripts' /}

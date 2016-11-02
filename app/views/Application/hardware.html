@@ -1,6 +1,6 @@
 #{extends 'main.html' /}
-#{set title:'Thông tin các root' /}
-<h3 style="text-transform: uppercase" class="text-center">Thông tin các root</h3>
+#{set title:'Cảm biến và ngoại vi' /}
+<h3 style="text-transform: uppercase" class="text-center">Thông tin các cảm biến và ngoại vi</h3>
 <div class="form-group">
     <button class="btn btn-primary">Thêm</button>
 </div>
@@ -11,16 +11,20 @@
         <th>ID</th>
         <th class="time-mo">Tên</th>
         <th class="type-mo">Mô tả</th>
+        <th class="type-mo">Loại</th>
         <th class="type-mo">Hành động</th>
 
     </tr>
     </thead>
     <tbody>
-    #{list items:roots, as:'item'}
+    #{list items:sensors, as:'item'}
     <tr>
         <td>${item.id}</td>
         <td>${item.name}</td>
         <td>${item.description}</td>
+        <td>#{if item.type==0}Cảm biến#{/if}
+            #{if item.type==1}Ngoại vi#{/if}
+        </td>
         <td>
             <button class="btn">Sửa</button>
             <button class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa không?');">Xoá</button>

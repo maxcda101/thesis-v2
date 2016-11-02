@@ -230,7 +230,7 @@ header {
 }
 
 .menu {
-    width: 190px;
+    width: 220px;
     position: fixed;
     background: #171717;
     left: 0px;
@@ -239,7 +239,7 @@ header {
 
 .wrapper-content {
     position: relative;
-    margin-left: 190px;
+    margin-left: 220px;
     margin-top: 15px;
     margin-bottom: 15px;
     background: #fff;

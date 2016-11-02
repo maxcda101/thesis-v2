@@ -12,6 +12,10 @@ GET     /chart                                   Application.chart
 GET     /root                                       Application.root
 GET     /node                                       Application.node
 GET     /user                                       Application.user
+GET     /realtime-node                              Application.realtimeNode
+GET     /part-of-the-day                             Application.partOfTheDay
+GET     /dangerous                             Application.dangerous
+GET     /hardware                             Application.hardware
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

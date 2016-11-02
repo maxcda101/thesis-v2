@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by AnhQuan on 9/16/2016.
  */
-@On("0 00 * * * ?")//every hour h:00:00
+//@On("0 00 * * * ?")//every hour h:00:00
 public class HanderOneHour extends Job {
     @Override
     public void doJob() {
@@ -33,7 +33,7 @@ public class HanderOneHour extends Job {
         List<Number> listNode = (List<Number>) query.getResultList();
 
         MutableDateTime objectTIme=new MutableDateTime(new Date());
-        objectTIme.addHours(-1);
+//        objectTIme.addHours(-1);
 
         for (Number i : listNode) {
             long idNode = i.longValue();

@@ -105,7 +105,7 @@ public class ApiMobile extends Controller {
             float total = 0;
             int i = 0;
             for (Node node : listNode) {
-                String sql = "FROM Data WHERE node_id=" + node.id + " and sensor_id=" + sensor.id + " and timeCreate >" + sdate + " and typeData_id=" + 3 + " order by timeCreate desc limit 1";
+                String sql = "SELECT *FROM Data WHERE node_id=" + node.id + " and sensor_id=" + sensor.id + " and timeCreate >" + sdate + " and typeData_id=" + 3 + " order by timeCreate desc limit 1";
                 Query query = em.createNativeQuery(sql, Data.class);
                 List<Data> listData = query.getResultList();
                 if (!listData.isEmpty()) {
@@ -179,21 +179,26 @@ public class ApiMobile extends Controller {
     public static void refreshToken(String token){
         JWTVerifier jwtVerifier=new JWTVerifier(Stateful.getInstance().keyFirebase);
         Map<String, Object> decoded=null;
+        User user=null;
         try {
             decoded= jwtVerifier.verify(token);
             // Do something with decoded information like UserId
             //   Logger.info("Name: %s",decoded.get("name"));
+            Date expireTime=new Date(Long.parseLong(decoded.get("exp")+""));
+            if(expireTime.getTime()<new Date().getTime()/1000){
+                renderJSON(new Response(2,"Expired time"));
+            }
+            Gson gson = new Gson();
+            JsonObject jsonObject=gson.fromJson(decoded.get("d")+"",JsonObject.class);
+            Logger.info(jsonObject.toString());
+
+            Long id=Long.parseLong(jsonObject.get("uid")+"");
+            user= User.findById(id);
+
         } catch (Exception e) {
             renderJSON(new Response(2,"Unauthorized: Token validation failed"));
         }
-        Date expireTime=new Date(Long.parseLong(decoded.get("exp")+""));
-        if(expireTime.getTime()<new Date().getTime()/1000){
-            renderJSON(new Response(2,"Expired time"));
-        }
-        Gson gson = new Gson();
-        JsonObject jsonObject=gson.fromJson(decoded.get("d")+"",JsonObject.class);
-        Long id=Long.parseLong(jsonObject.get("uid")+"");
-        User user= User.findById(id);
+
         renderJSON(new Response(1,createToken(user,user.isManager)));
 
     }

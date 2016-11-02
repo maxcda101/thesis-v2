@@ -40,9 +40,9 @@ public class ApiEmbed extends Controller {
         //check Data for notification
         int rank = 0;
         if (data.sensor.id == 1) {
-            if (data.value > 0 && data.value <= 20) {
+            if (data.value > 0 && data.value <= 30) {
                 rank = 3;
-            } else if (20 < data.value && data.value <= 70) {
+            } else if (30 < data.value && data.value <= 70) {
                 rank = 2;
             } else if (70 < data.value) {
                 rank = 1;

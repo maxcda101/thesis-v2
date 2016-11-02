@@ -1,0 +1,24 @@
+#{extends 'main.html' /}
+#{set title:'Thông tin hiện tại' /}
+<h3 style="text-transform: uppercase" class="text-center">Giá trị hiện tại ${node.name}</h3>
+<h4>${node.description}</h4>
+<h4>Thuộc root ${node.root.name}</h4>
+
+<h4>Thông tin hiện tại</h4>
+<p><span class="glyphicon glyphicon-certificate"></span> Nhiệt độ: #{if temp.value != -1} ${temp.value} °C#{/if}#{else} Không có tín hiệu #{/else} </p>
+<p><span class="glyphicon glyphicon-tint"></span> Độ ẩm:  #{if humi.value != -1} ${humi.value} %#{/if}#{else} Không có tín hiệu #{/else}</p>
+<p><span class="glyphicon glyphicon-grain"></span> Chất lượng không khí:  #{if air.value != -1} ${air.value} /100#{/if}#{else} Không có tín hiệu #{/else}</p>
+
+#{form @Application.realtimeNode(), method:'GET', enctype:'multipart/form-data', id:'NodeForm'}
+<select id="idNode" name="idNode" class="selectpicker show-tick" data-live-search="true" title="Chọn node">
+    #{list items:listNode, as:'item'}
+    <option value="${item.id}">${item.name}</option>
+    #{/list}
+</select>
+#{/form}
+
+<script>
+    $('#idNode').change(function () {
+        $('#NodeForm').submit();
+    });
+</script>

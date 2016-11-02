@@ -1,28 +1,56 @@
 #{extends 'main.html' /}
-#{set title:'Home' /}
-<h3 style="text-transform: uppercase" class="text-center">Thông tin node</h3>
+#{set title:'Thông tin các node' /}
+<h3 style="text-transform: uppercase" class="text-center">Thông tin các node</h3>
 
 <div class="form-group">
     <button class="btn btn-primary">Thêm</button>
 </div>
+#{form @Application.node(), method:'GET', enctype:'multipart/form-data', id:'NodeForm'}
+<select id="idRoot" name="idRoot" class="selectpicker show-tick" data-live-search="true" title="Lọc theo Root">
+    #{list items:roots, as:'item'}
+    <option value="${item.id}">${item.name}</option>
+    #{/list}
+</select>
+#{/form}
 
 <table class="table table-bordered table-striped table-hover admin-table">
     <thead>
     <tr class="success">
-        <th>STT</th>
-        <th class="time-mo">Thời gian</th>
+        <th>ID</th>
+        <th class="time-mo">Tên</th>
+        <th class="type-mo">Mô tả</th>
+        <th class="type-mo">Thuộc root</th>
+        <th class="type-mo">Các cảm biến</th>
         <th class="type-mo">Hành động</th>
 
     </tr>
     </thead>
     <tbody>
+    #{list items:nodes, as:'item'}
     <tr>
-        <td></td>
-        <td></td>
+        <td>${item.id}</td>
+        <td>${item.name}</td>
+        <td>${item.description}</td>
+        <td>${item.root.name}</td>
+
+        <td>
+            #{list listSensor.get(item_index-1), as:'s'}
+                <p>${s.name}</p>
+            #{/list}
+
+        </td>
         <td>
             <button class="btn">Sửa</button>
             <button class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa không?');">Xoá</button>
         </td>
     </tr>
+    #{/list}
     </tbody>
 </table>
+
+<script>
+    $('#idRoot').change(function () {
+        $('#NodeForm').submit();
+    });
+
+</script>
