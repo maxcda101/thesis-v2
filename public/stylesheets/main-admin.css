@@ -155,12 +155,15 @@ header {
     color: #fff;
 }
 
-.menu ul li:hover a::before {
+.menu > ul > li:hover .ul-dt {
+    display: block;
+}
+.menu > ul > li:hover > a::before {
     opacity: 1;
     left: 0;
 }
 
-.menu ul li:hover a::after {
+.menu > ul > li:hover > a::after {
     opacity: 1;
     right: 0;
 }
@@ -169,7 +172,7 @@ header {
     color: #fff;
 }
 
-.menu ul li a:before {
+.menu > ul > li > a:before {
     background: rgba(0, 0, 0, 0) url(../images/before.png) no-repeat scroll 0 0;
     content: "";
     height: 42px;
@@ -185,7 +188,7 @@ header {
     -ms-transition: all 0.5s ease-out 0s;
 }
 
-.menu ul li a:after {
+.menu > ul > li > a:after {
     background: rgba(0, 0, 0, 0) url(../images/after.png) no-repeat scroll 0 0;
     content: "";
     height: 42px;
@@ -235,6 +238,7 @@ header {
     background: #171717;
     left: 0px;
     min-height: 100%;
+    z-index: 100;
 }
 
 .wrapper-content {
@@ -301,5 +305,62 @@ header {
     padding: 5px;
 }
 
+.parrent-li{
+    position: relative;
+}
+.ul-dt{
+    position: absolute;
+    background: #171717;
+    margin-left: 210px !important;
+    width: 200px;
+    top: -10px;
+    /*border-left: 1px solid #fff;*/
+    display: none;
+}
+.ul-dt li{
+    margin: 5px;
+}
 
+
+.ul-dt > li:hover > a::before {
+    opacity: 1;
+    left: 0;
+}
+
+.ul-dt > li:hover > a::after {
+    opacity: 1;
+    right: 0;
+}
+
+.ul-dt > li > a:before {
+    background: rgba(0, 0, 0, 0) url(../images/before.png) no-repeat scroll 0 0;
+    content: "";
+    height: 42px;
+    left: 20px;
+    position: absolute;
+    top: 0;
+    width: 11px;
+    opacity: 0;
+    transition: all 0.5s ease-out 0s;
+    -webkit-transition: all 0.5s ease-out 0s;
+    -moz-transition: all 0.5s ease-out 0s;
+    -o-transition: all 0.5s ease-out 0s;
+    -ms-transition: all 0.5s ease-out 0s;
+}
+
+.ul-dt > li > a:after {
+    background: rgba(0, 0, 0, 0) url(../images/after.png) no-repeat scroll 0 0;
+    content: "";
+    height: 42px;
+    right: 20px;
+    position: absolute;
+    top: 0;
+    width: 11px;
+    opacity: 0;
+    transition: all 0.5s ease-out 0s;
+    -webkit-transition: all 0.5s ease-out 0s;
+    -moz-transition: all 0.5s ease-out 0s;
+    -o-transition: all 0.5s ease-out 0s;
+    -ms-transition: all 0.5s ease-out 0s;
+}
 

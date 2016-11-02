@@ -53,40 +53,35 @@
                 <nav class="menu">
                     <ul>
                         <li>
-                            <a
-                                    #{if request.action=="Application.index"}class="active"#{/if}
+                            <a #{if request.action=="Application.index"}class="active"#{/if}
                                     href="@{Application.index()}">
                                 <span class="glyphicon glyphicon-home"></span>
                                 <span class="nav-item">Trang chủ</span>
                             </a>
                         </li>
                         <li>
-                            <a
-                                    #{if request.action=="Application.realtimeNode"}class="active"#{/if}
+                            <a #{if request.action=="Application.realtimeNode"}class="active"#{/if}
                                     href="@{Application.realtimeNode()}">
                                 <span class="glyphicon glyphicon-home"></span>
                                 <span class="nav-item">Thông tin hiện tại Node</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="parrent-li">
                             <a>
                                 <span class="glyphicon glyphicon-stats"></span>
                                 <span class="nav-item">Thống kê</span>
                             </a>
 
-                            <!--//todo: sửa giúp e-->
                             <ul class="ul-dt">
                                 <li>
-                                    <a
-                                            #{if request.action=="Application.chart"}class="active"#{/if}
+                                    <a #{if request.action=="Application.chart"}class="active"#{/if}
                                             href="@{Application.chart()}">
                                         <!--<span class="glyphicon glyphicon-tower"></span>-->
                                         <span class="nav-item">Biểu đồ theo giờ</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a
-                                            #{if request.action=="Application.partOfTheDay"}class="active"#{/if}
+                                    <a #{if request.action=="Application.partOfTheDay"}class="active"#{/if}
                                             href="@{Application.partOfTheDay()}">
                                         <!--<span class="glyphicon glyphicon-tower"></span>-->
                                         <span class="nav-item">Biểu đồ theo buổi</span>
@@ -111,32 +106,28 @@
 
 
                         <li>
-                            <a
-                                    #{if request.action=="Application.root"}class="active"#{/if}
+                            <a #{if request.action=="Application.root"}class="active"#{/if}
                                     href="@{Application.root()}">
                                 <span class="glyphicon glyphicon-info-sign"></span>
                                 <span class="nav-item">Thông tin các Root</span>
                             </a>
                         </li>
                         <li>
-                            <a
-                                    #{if request.action=="Application.node"}class="active"#{/if}
+                            <a #{if request.action=="Application.node"}class="active"#{/if}
                                     href="@{Application.node()}">
                                 <span class="glyphicon glyphicon-screenshot"></span>
                                 <span class="nav-item">Thông tin các Node</span>
                             </a>
                         </li>
                         <li>
-                            <a
-                                    #{if request.action=="Application.hardware"}class="active"#{/if}
+                            <a #{if request.action=="Application.hardware"}class="active"#{/if}
                                     href="@{Application.hardware()}">
                                 <span class="glyphicon glyphicon-screenshot"></span>
                                 <span class="nav-item">Cảm biến và ngoại vi</span>
                             </a>
                         </li>
                         <li>
-                            <a
-                                    #{if request.action=="Application.user"}class="active"#{/if}
+                            <a #{if request.action=="Application.user"}class="active"#{/if}
                                     href="@{Application.user()}">
                                 <span class="glyphicon glyphicon-user"></span>
                                 <span class="nav-item">Người dùng</span>
