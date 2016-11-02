@@ -135,9 +135,9 @@ public class Application extends Controller {
 
         if (commandCode != null && ("action".equalsIgnoreCase(commandCode))) {
             if (idSensor == -1) {
-                data = new ModelPaginator(Data.class, "node = ? and typeData = ? and timeCreate between ? and ?", Node.findById(idNode), TypeData.findById(3l), startDate, objTime.toDate()).orderBy("id desc");
+                data = new ModelPaginator(Data.class, "node = ? and typeData = ? and timeCreate between ? and ?", Node.findById(idNode), TypeData.findById(3l), startDate, objTime.toDate()).orderBy("timeCreate desc");
             } else {
-                data = new ModelPaginator(Data.class, "sensor_id = ? and node_id = ? and typeData_id = ? and timeCreate between ? and ?", idSensor, idNode, 3, startDate, objTime.toDate()).orderBy("id desc");
+                data = new ModelPaginator(Data.class, "sensor_id = ? and node_id = ? and typeData_id = ? and timeCreate between ? and ?", idSensor, idNode, 3, startDate, objTime.toDate()).orderBy("timeCreate desc");
             }
         }
 
@@ -169,11 +169,11 @@ public class Application extends Controller {
 
         if (commandCode != null && ("action".equalsIgnoreCase(commandCode))) {
             if (idSensor == 1) {
-                data = new ModelPaginator(Data.class, "value > 30 AND sensor_id = ? and node_id = ? and typeData_id = ? and timeCreate between ? and ?", idSensor, idNode, 3, startDate, objTime.toDate()).orderBy("id desc");
+                data = new ModelPaginator(Data.class, "value > 30 AND sensor_id = ? and node_id = ? and typeData_id = ? and timeCreate between ? and ?", idSensor, idNode, 3, startDate, objTime.toDate()).orderBy("timeCreate desc");
             } else if (idSensor == 2) {
-                data = new ModelPaginator(Data.class, "(value < 22 OR value > 27) AND sensor_id = ? and node_id = ? and typeData_id = ? and timeCreate between ? and ?", idSensor, idNode, 3, startDate, objTime.toDate()).orderBy("id desc");
+                data = new ModelPaginator(Data.class, "(value < 22 OR value > 27) AND sensor_id = ? and node_id = ? and typeData_id = ? and timeCreate between ? and ?", idSensor, idNode, 3, startDate, objTime.toDate()).orderBy("timeCreate desc");
             } else if (idSensor == 3) {
-                data = new ModelPaginator(Data.class, "(value < 50 OR value > 70) AND sensor_id = ? and node_id = ? and typeData_id = ? and timeCreate between ? and ?", idSensor, idNode, 3, startDate, objTime.toDate()).orderBy("id desc");
+                data = new ModelPaginator(Data.class, "(value < 50 OR value > 70) AND sensor_id = ? and node_id = ? and typeData_id = ? and timeCreate between ? and ?", idSensor, idNode, 3, startDate, objTime.toDate()).orderBy("timeCreate desc");
             }
         }
 

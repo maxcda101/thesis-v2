@@ -62,7 +62,7 @@
                         <li>
                             <a #{if request.action=="Application.realtimeNode"}class="active"#{/if}
                                     href="@{Application.realtimeNode()}">
-                                <span class="glyphicon glyphicon-home"></span>
+                                <span class="glyphicon glyphicon-time"></span>
                                 <span class="nav-item">Thông tin hiện tại Node</span>
                             </a>
                         </li>
@@ -108,21 +108,21 @@
                         <li>
                             <a #{if request.action=="Application.root"}class="active"#{/if}
                                     href="@{Application.root()}">
-                                <span class="glyphicon glyphicon-info-sign"></span>
+                                <span class="glyphicon glyphicon-registration-mark"></span>
                                 <span class="nav-item">Thông tin các Root</span>
                             </a>
                         </li>
                         <li>
                             <a #{if request.action=="Application.node"}class="active"#{/if}
                                     href="@{Application.node()}">
-                                <span class="glyphicon glyphicon-screenshot"></span>
+                                <span class="glyphicon glyphicon-record"></span>
                                 <span class="nav-item">Thông tin các Node</span>
                             </a>
                         </li>
                         <li>
                             <a #{if request.action=="Application.hardware"}class="active"#{/if}
                                     href="@{Application.hardware()}">
-                                <span class="glyphicon glyphicon-screenshot"></span>
+                                <span class="glyphicon glyphicon-asterisk"></span>
                                 <span class="nav-item">Cảm biến và ngoại vi</span>
                             </a>
                         </li>

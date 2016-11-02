@@ -1,14 +1,15 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
-<h1 class="title text-center">${location.name}</h1>
+<h1 class="title">${location.name}</h1>
 <h3>${location.address}</h3>
 
-<h3>${(new Date()).format('dd-MM-yyyy HH:mm:ss')}</h3>
 
+<h3 class="title text-center">Thông tin trung bình toàn tòa nhà</h3>
+<h4 class="title text-center">${(new Date()).format('HH:mm:ss dd/MM/yyyy')}</h4>
 
+<p><span class="glyphicon glyphicon-leaf"></span> Chất lượng không khí:  #{if air != -1} ${air} /100#{/if}#{else} Không có tín hiệu #{/else}</p>
 <p><span class="glyphicon glyphicon-certificate"></span> Nhiệt độ: #{if temp != -1} ${temp} °C#{/if}#{else} Không có tín hiệu #{/else} </p>
 <p><span class="glyphicon glyphicon-tint"></span> Độ ẩm:  #{if humi != -1} ${humi} %#{/if}#{else} Không có tín hiệu #{/else}</p>
-<p><span class="glyphicon glyphicon-grain"></span> Chất lượng không khí:  #{if air != -1} ${air} /100#{/if}#{else} Không có tín hiệu #{/else}</p>
 
 
 

@@ -4,13 +4,14 @@
 <h4>${node.description}</h4>
 <h4>Thuộc root ${node.root.name}</h4>
 
+</br>
 <h4>Thông tin hiện tại</h4>
+<p><span class="glyphicon glyphicon-leaf"></span> Chất lượng không khí:  #{if air.value != -1} ${air.value} /100#{/if}#{else} Không có tín hiệu #{/else}</p>
 <p><span class="glyphicon glyphicon-certificate"></span> Nhiệt độ: #{if temp.value != -1} ${temp.value} °C#{/if}#{else} Không có tín hiệu #{/else} </p>
 <p><span class="glyphicon glyphicon-tint"></span> Độ ẩm:  #{if humi.value != -1} ${humi.value} %#{/if}#{else} Không có tín hiệu #{/else}</p>
-<p><span class="glyphicon glyphicon-grain"></span> Chất lượng không khí:  #{if air.value != -1} ${air.value} /100#{/if}#{else} Không có tín hiệu #{/else}</p>
-
+</br>
 #{form @Application.realtimeNode(), method:'GET', enctype:'multipart/form-data', id:'NodeForm'}
-<select id="idNode" name="idNode" class="selectpicker show-tick" data-live-search="true" title="Chọn node">
+<select id="idNode" name="idNode" class="selectpicker show-tick" data-live-search="true" title="Chọn node khác">
     #{list items:listNode, as:'item'}
     <option value="${item.id}">${item.name}</option>
     #{/list}
