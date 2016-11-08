@@ -18,8 +18,9 @@
 
 
 
+
 </style>
-<h3 style="text-transform: uppercase" class="text-center title">Thống kê theo buổi trong ngày</h3>
+<h3 style="text-transform: uppercase" class="text-center title">Biểu đồ theo từng ngày</h3>
 
 #{form @Application.partOfTheDay(), method:'GET'}
 
@@ -53,7 +54,7 @@
         </div>
         <p class="alert-danger" style="margin-top: 10px">${notification}</p>
         <div class="form-inline action-button">
-            <button type="submit" class="btn btn-info admin-btn" style="margin-right: 30px;">Tìm Kiếm</button>
+            <button type="submit" class="btn btn-info admin-btn" style="margin-right: 30px;">Xem</button>
         </div>
     </div>
 
@@ -82,19 +83,63 @@
     var LABEL =[];
 
     #{list items:dataMedium, as:'item'}
-        medium.push(${item});
+         if(${item} !=0){
+            medium.push(${item});
+        }else{
+           medium.push(NaN);
+        }
     #{/list}
 
     #{list items:dataMax, as:'item'}
-        max.push(${item});
+        if(${item} !=0){
+            max.push(${item});
+        }else{
+           max.push(NaN);
+        }
     #{/list}
 
     #{list items:dataMin, as:'item'}
-        min.push(${item});
+        if(${item} !=0){
+            min.push(${item});
+        }else{
+           min.push(NaN);
+        }
     #{/list}
     #{list items:labels, as:'item'}
         LABEL.push('${item}');
     #{/list}
+
+        var maxValue;
+        var labelY;
+        var VALUE_MIN=[];
+        var VALUE_MAX=[];
+        #{if idSensor >0}
+            var type=${idSensor};
+
+        if(type==1){
+            maxValue=100;
+            labelY='%';
+             #{list items:labels, as:'item'}
+                 VALUE_MAX.push(30);
+            #{/list}
+
+        }else if(type==2){
+            maxValue=40;
+            labelY='°C';
+            #{list items:labels, as:'item'}
+                 VALUE_MIN.push(22)
+                 VALUE_MAX.push(27);
+            #{/list}
+        }else if(type==3){
+            maxValue=100;
+            labelY='%';
+            #{list items:labels, as:'item'}
+                 VALUE_MIN.push(50)
+                 VALUE_MAX.push(70);
+            #{/list}
+        }
+        #{/if}
+
 
     var config = {
             type: 'line',
@@ -121,6 +166,24 @@
                     pointBackgroundColor: 'white',
                     backgroundColor: 'rgba(0, 0, 0, 0)',
                     data: min,
+                },{
+                    label: 'Ngưỡng thấp mức an toàn',
+                    borderColor: '#36A2EB',
+                    pointBorderColor: '#36A2EB',
+                    pointBackgroundColor: 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    borderDash: [5, 5],
+                    fill: false,
+                    data: VALUE_MIN,
+                },{
+                    label: 'Ngưỡng cao mức an toàn',
+                    borderColor: '#FF3684',
+                    pointBorderColor: '#FF3684',
+                    pointBackgroundColor: 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    borderDash: [5, 5],
+                    fill: false,
+                    data: VALUE_MAX,
                 }]
             },
             options: {
@@ -128,7 +191,6 @@
                 tooltips: {
                     mode: 'label',
                     callbacks: {
-
                     }
                 },
                 hover: {
@@ -138,19 +200,19 @@
                     xAxes: [{
                         display: true,
                         scaleLabel: {
-                            show: true,
-                            labelString: 'Buổi'
+                            display: true,
+                            labelString: 'Ngày'
                         }
                     }],
                     yAxes: [{
                         display: true,
                         scaleLabel: {
-                            show: true,
-                            labelString: 'Giá trị'
+                            display: true,
+                            labelString: labelY
                         },
                         ticks: {
                             suggestedMin: 0,
-                            suggestedMax: 0,
+                            suggestedMax: maxValue,
                         }
                     }]
                 }
@@ -162,5 +224,6 @@
         window.myLine = new Chart(chart, config);
 
     };
+
 
 </script>

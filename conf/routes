@@ -16,6 +16,8 @@ GET     /realtime-node                              Application.realtimeNode
 GET     /part-of-the-day                             Application.partOfTheDay
 GET     /dangerous                             Application.dangerous
 GET     /hardware                             Application.hardware
+*     /report-day                             Application.reportDay
+*     /report-week                             Application.reportWeek
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

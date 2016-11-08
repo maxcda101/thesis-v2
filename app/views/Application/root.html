@@ -1,9 +1,11 @@
 #{extends 'main.html' /}
 #{set title:'Thông tin các root' /}
 <h3 style="text-transform: uppercase" class="text-center title">Thông tin các root</h3>
+#{if isManager}
 <div class="form-group">
     <button class="btn btn-primary">Thêm</button>
 </div>
+#{/if}
 
 <table class="table table-bordered table-striped table-hover admin-table">
     <thead>
@@ -11,7 +13,9 @@
         <th>ID</th>
         <th class="time-mo">Tên</th>
         <th class="type-mo">Mô tả</th>
+        #{if isManager}
         <th class="type-mo">Hành động</th>
+        #{/if}
 
     </tr>
     </thead>
@@ -21,10 +25,12 @@
         <td>${item.id}</td>
         <td>${item.name}</td>
         <td>${item.description}</td>
+        #{if isManager}
         <td>
             <button class="btn">Sửa</button>
             <button class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa không?');">Xoá</button>
         </td>
+        #{/if}
     </tr>
     #{/list}
 

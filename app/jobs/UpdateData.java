@@ -110,10 +110,10 @@ public class UpdateData extends Job {
                 if (temp.getDayOfYear() != temp2.getDayOfYear() || temp.getHourOfDay() != temp2.getHourOfDay() || i == dataList.size() - 1) {
                     Logger.info("Update data in: " + temp.getDayOfMonth() + "-" + temp.getHourOfDay());
 
-                    Data dataMedium = Data.find("dayofyear(timeCreate)=? AND hour(timeCreate)=? AND typeData=? AND sensor=? AND node=?", temp.getDayOfYear(), temp.getHourOfDay(), mediumType, sensor, node).first();
-                    Data dataMax = Data.find("dayofyear(timeCreate)=? AND hour(timeCreate)=? AND typeData=? AND sensor=? AND node=?", temp.getDayOfYear(), temp.getHourOfDay(), maxType, sensor, node).first();
-                    Data dataMin = Data.find("dayofyear(timeCreate)=? AND hour(timeCreate)=? AND typeData=? AND sensor=? AND node=?", temp.getDayOfYear(), temp.getHourOfDay(), minType, sensor, node).first();
-                    List<Data> list = Data.find("dayofyear(timeCreate)=? AND hour(timeCreate)=? AND typeData=? AND sensor=? AND node=?", temp.getDayOfYear(), temp.getHourOfDay(), nowType, sensor, node).fetch();
+                    Data dataMedium = Data.find("year(timeCreate)=? AND dayofyear(timeCreate)=? AND hour(timeCreate)=? AND typeData=? AND sensor=? AND node=?",temp.getYear(), temp.getDayOfYear(), temp.getHourOfDay(), mediumType, sensor, node).first();
+                    Data dataMax = Data.find("year(timeCreate)=? AND dayofyear(timeCreate)=? AND hour(timeCreate)=? AND typeData=? AND sensor=? AND node=?",temp.getYear(), temp.getDayOfYear(), temp.getHourOfDay(), maxType, sensor, node).first();
+                    Data dataMin = Data.find("year(timeCreate)=? AND dayofyear(timeCreate)=? AND hour(timeCreate)=? AND typeData=? AND sensor=? AND node=?",temp.getYear(), temp.getDayOfYear(), temp.getHourOfDay(), minType, sensor, node).first();
+                    List<Data> list = Data.find("year(timeCreate)=? AND dayofyear(timeCreate)=? AND hour(timeCreate)=? AND typeData=? AND sensor=? AND node=?",temp.getYear(), temp.getDayOfYear(), temp.getHourOfDay(), nowType, sensor, node).fetch();
 
                     temp.setMinuteOfHour(0);
                     float value=list.get(0).value;

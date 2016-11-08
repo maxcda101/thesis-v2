@@ -34,7 +34,7 @@
 
 
             #{form @Application.selectLocation(), method:'POST', enctype:'multipart/form-data', id:'LocationForm'}
-            <select id="idLocation" name="idLocation" class="selectpicker show-tick" data-live-search="true">
+            <select id="idLocation" name="idLocation" class="selectpicker show-tick" data-live-search="true" title="${location.name}">
                 #{list items:listLocation, as:'location'}
                 <option value="${location.id}">${location.name}</option>
                 #{/list}
@@ -54,16 +54,16 @@
                     <ul>
                         <li>
                             <a #{if request.action=="Application.index"}class="active"#{/if}
-                                    href="@{Application.index()}">
+                               href="@{Application.index()}">
                                 <span class="glyphicon glyphicon-home"></span>
                                 <span class="nav-item">Trang chủ</span>
                             </a>
                         </li>
                         <li>
                             <a #{if request.action=="Application.realtimeNode"}class="active"#{/if}
-                                    href="@{Application.realtimeNode()}">
+                               href="@{Application.realtimeNode()}">
                                 <span class="glyphicon glyphicon-time"></span>
-                                <span class="nav-item">Thông tin hiện tại Node</span>
+                                <span class="nav-item">Thông tin chi tiết hiện tại</span>
                             </a>
                         </li>
                         <li class="parrent-li">
@@ -71,27 +71,26 @@
                                 <span class="glyphicon glyphicon-stats"></span>
                                 <span class="nav-item">Thống kê</span>
                             </a>
-
                             <ul class="ul-dt">
                                 <li>
                                     <a #{if request.action=="Application.chart"}class="active"#{/if}
-                                            href="@{Application.chart()}">
+                                       href="@{Application.chart()}">
                                         <!--<span class="glyphicon glyphicon-tower"></span>-->
                                         <span class="nav-item">Biểu đồ theo giờ</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a #{if request.action=="Application.partOfTheDay"}class="active"#{/if}
-                                            href="@{Application.partOfTheDay()}">
+                                       href="@{Application.partOfTheDay()}">
                                         <!--<span class="glyphicon glyphicon-tower"></span>-->
-                                        <span class="nav-item">Biểu đồ theo buổi</span>
+                                        <span class="nav-item">Biểu đồ theo ngày</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a #{if request.action=="Application.analytic"}class="active"#{/if}
                                        href="@{Application.analytic()}">
                                         <!--<span class="glyphicon glyphicon-stats"></span>-->
-                                        <span class="nav-item">Dạng bảng</span>
+                                        <span class="nav-item">Dữ liệu dạng bảng</span>
                                     </a>
                                 </li>
                                 <li>
@@ -103,36 +102,67 @@
                                 </li>
                             </ul>
                         </li>
-
-
-                        <li>
-                            <a #{if request.action=="Application.root"}class="active"#{/if}
-                                    href="@{Application.root()}">
-                                <span class="glyphicon glyphicon-registration-mark"></span>
-                                <span class="nav-item">Thông tin các Root</span>
+                        <li class="parrent-li">
+                            <a>
+                                <span class="glyphicon glyphicon-flag"></span>
+                                <span class="nav-item">Báo cáo</span>
                             </a>
+                            <ul class="ul-dt">
+                                <li>
+                                    <a #{if request.action=="Application.reportDay"}class="active"#{/if}
+                                       href="@{Application.reportDay()}">
+                                        <!--<span class="glyphicon glyphicon-registration-mark"></span>-->
+                                        <span class="nav-item">Theo ngày</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a #{if request.action=="Application.reportWeek"}class="active"#{/if}
+                                       href="@{Application.reportWeek()}">
+                                        <!--<span class="glyphicon glyphicon-record"></span>-->
+                                        <span class="nav-item">Theo tuần</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
-                            <a #{if request.action=="Application.node"}class="active"#{/if}
-                                    href="@{Application.node()}">
-                                <span class="glyphicon glyphicon-record"></span>
-                                <span class="nav-item">Thông tin các Node</span>
+
+                        <li class="parrent-li">
+                            <a>
+                                <span class="glyphicon glyphicon-map-marker"></span>
+                                <span class="nav-item">Phần cứng</span>
                             </a>
+                            <ul class="ul-dt">
+                                <li>
+                                    <a #{if request.action=="Application.root"}class="active"#{/if}
+                                       href="@{Application.root()}">
+                                        <!--<span class="glyphicon glyphicon-registration-mark"></span>-->
+                                        <span class="nav-item">Thông tin các Root</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a #{if request.action=="Application.node"}class="active"#{/if}
+                                       href="@{Application.node()}">
+                                        <!--<span class="glyphicon glyphicon-record"></span>-->
+                                        <span class="nav-item">Thông tin các Node</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a #{if request.action=="Application.hardware"}class="active"#{/if}
-                                    href="@{Application.hardware()}">
+                               href="@{Application.hardware()}">
                                 <span class="glyphicon glyphicon-asterisk"></span>
                                 <span class="nav-item">Cảm biến và ngoại vi</span>
                             </a>
                         </li>
+                        #{if isManager}
                         <li>
                             <a #{if request.action=="Application.user"}class="active"#{/if}
-                                    href="@{Application.user()}">
+                               href="@{Application.user()}">
                                 <span class="glyphicon glyphicon-user"></span>
-                                <span class="nav-item">Người dùng</span>
+                                <span class="nav-item">Quản lý người dùng</span>
                             </a>
                         </li>
+                        #{/if}
                     </ul>
                 </nav>
                 <div class="wrapper-content">
@@ -168,6 +198,7 @@
     $('#idLocation').change(function () {
         $('#LocationForm').submit();
     });
+
 
 
 
