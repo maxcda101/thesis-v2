@@ -386,6 +386,7 @@ public class Application extends Controller {
         }
         listNode=listNode.substring(0, listNode.length()-1);
         List<Data> airMedium = Data.find("node_id IN (?) AND dayofyear(timeCreate) = ? AND typeData = ? AND sensor = ?",listNode, objTime.getDayOfYear(), typeMedium, sensorAir).fetch();
+        Data airMin = Data.find("node_id IN (?) AND dayofyear(timeCreate) = ? AND typeData = ? AND sensor = ? order by value asc", listNode, objTime.getDayOfYear(), typeNow, sensorAir).first();
         Data airMax = Data.find("node_id IN (?) AND dayofyear(timeCreate) = ? AND typeData = ? AND sensor = ? order by value desc", listNode, objTime.getDayOfYear(), typeNow, sensorAir).first();
 
         List<Data> tempMedium = Data.find("node_id IN (?) AND dayofyear(timeCreate) = ? AND typeData = ? AND sensor = ?", listNode, objTime.getDayOfYear(), typeMedium, sensorTemp).fetch();
@@ -399,14 +400,16 @@ public class Application extends Controller {
         java.text.DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String sairMedium = null;
         String sairMax = null;
+        String sairMin = null;
         String airTotal = null;
         if (airMedium.size() > 0 && airMax != null) {
             float fair = handerData(airMedium, 1);
-            sairMedium = "Chất lượng không khí trung bình trong ngày ở mức " + fair + "%";
-            sairMax = "Chất lượng không khí cao nhất trong ngày ở mức " + airMax.value + "% vào lúc " + dateFormat.format(airMax.timeCreate);
+            sairMedium = "Chất lượng không khí trung bình trong ngày ở mức " + fair + "/100";
+            sairMin = "Chất lượng không khí tốt nhất trong ngày ở mức " + airMin.value + "/100 vào lúc " + dateFormat.format(airMin.timeCreate);
+            sairMax = "Chất lượng không khí cao nhất trong ngày ở mức " + airMax.value + "/100 vào lúc " + dateFormat.format(airMax.timeCreate);
             airTotal = "";
             if (fair < 30) {
-                airTotal = "Trung bình chất lượng không khí trong ngày ở mức tốt cho sức khỏe";
+                airTotal = "Trung bình chất lượng không khí trong ngày ở mức tốt cho sức khỏe (từ 0 đến 30)";
                 if (airMax.value > 30) {
                     airTotal += ", tuy nhiên có một số thời điểm chất lượng không khi bị ô nhiễm";
                 }
@@ -430,7 +433,7 @@ public class Application extends Controller {
             } else if (ftemp > 27) {
                 tempTotal = "Nhiệt độ trung bình trong ngày cao hơn ngưỡng tốt cho sức khỏe (27°C)";
             } else {
-                tempTotal = "Nhiệt độ trung bình trong ngày ở ngưỡng tốt cho sức khỏe";
+                tempTotal = "Nhiệt độ trung bình trong ngày ở ngưỡng tốt cho sức khỏe (22°C đến 27°C)";
                 if (tempMin.value < 22 && tempMax.value > 27) {
                     tempTotal += ", tuy nhiên biên độ nhiệt trong ngày chênh lệch khá cao";
                 } else {
@@ -459,7 +462,7 @@ public class Application extends Controller {
             } else if (fhumi > 70) {
                 humiTotal = "Độ ẩm trung bình trong ngày cao hơn ngưỡng tốt cho sức khỏe (70%)";
             } else {
-                humiTotal = "Độ ẩm trung bình trong ngày ở ngưỡng tốt cho sức khỏe";
+                humiTotal = "Độ ẩm trung bình trong ngày ở ngưỡng tốt cho sức khỏe (50% đến 70%)";
                 if (humiMin.value < 50 && humiMax.value > 70) {
                     humiTotal += ", tuy nhiên biên độ độ ẩm trong ngày chênh lệch khá cao";
                 } else {
@@ -472,14 +475,16 @@ public class Application extends Controller {
                 }
             }
         }
-        render(date, sairMedium, sairMax, airTotal, stempMedium, stempMax, stempMin, tempTotal, shumiMedium, shumiMax, shumiMin, humiTotal);
+        render(date, sairMedium,sairMin, sairMax, airTotal, stempMedium, stempMax, stempMin, tempTotal, shumiMedium, shumiMax, shumiMin, humiTotal);
     }
 
     public static void reportWeek(@As("dd-MM-yyyy") Date date) {
         if (date == null) {
-            date = new Date();
+            MutableDateTime objTime = new MutableDateTime(new Date());
+            objTime.setSecondOfDay(0);
+            objTime.addDays(-7);
+            date=objTime.toDate();
         }
-        MutableDateTime objTime = new MutableDateTime(date);
 
         TypeData typeMedium = TypeData.findById(1l);
         TypeData typeNow = TypeData.findById(3l);
@@ -488,12 +493,12 @@ public class Application extends Controller {
         Sensor sensorTemp = Sensor.findById(2l);
         Sensor sensorHumi = Sensor.findById(3l);
 
-        int week = objTime.getWeekOfWeekyear();
-        objTime.getDayOfWeek();
-        objTime.addDays(-objTime.getDayOfWeek() + 1);
-        Date monday = objTime.toDate();
-        objTime.addDays(6);
-        Date weekend = objTime.toDate();
+
+        MutableDateTime objTime = new MutableDateTime(date);
+        objTime.setSecondOfDay(0);
+        Date startDate=objTime.toDate();
+        objTime.addDays(7);
+        Date endDate=objTime.toDate();
 
 
         List<Node> listNodes = Node.getAllNodeByLocation(Long.parseLong(session.get("idLocation")));
@@ -506,28 +511,31 @@ public class Application extends Controller {
         }
         listNode=listNode.substring(0, listNode.length()-1);
 
-        List<Data> airMedium = Data.find("node_id IN (?) AND weekofyear(timeCreate) = ? AND typeData = ? AND sensor = ?", listNode, week, typeMedium, sensorAir).fetch();
-        Data airMax = Data.find("node_id IN (?) AND weekofyear(timeCreate) = ? AND typeData = ? AND sensor = ? order by value desc", listNode, week, typeNow, sensorAir).first();
+        List<Data> airMedium = Data.find("node_id IN (?) AND (timeCreate between ? and ?) AND typeData = ? AND sensor = ?", listNode, startDate,endDate, typeMedium, sensorAir).fetch();
+        Data airMin = Data.find("node_id IN (?) AND (timeCreate between ? and ?) AND typeData = ? AND sensor = ? order by value asc", listNode, startDate,endDate, typeNow, sensorAir).first();
+        Data airMax = Data.find("node_id IN (?) AND (timeCreate between ? and ?) AND typeData = ? AND sensor = ? order by value desc", listNode, startDate,endDate, typeNow, sensorAir).first();
 
-        List<Data> tempMedium = Data.find("node_id IN (?) AND weekofyear(timeCreate) = ? AND typeData = ? AND sensor = ?", listNode, week, typeMedium, sensorTemp).fetch();
-        Data tempMin = Data.find("node_id IN (?) AND weekofyear(timeCreate) = ? AND typeData = ? AND sensor = ? order by value asc", listNode, week, typeNow, sensorTemp).first();
-        Data tempMax = Data.find("node_id IN (?) AND weekofyear(timeCreate) = ? AND typeData = ? AND sensor = ? order by value desc", listNode, week, typeNow, sensorTemp).first();
+        List<Data> tempMedium = Data.find("node_id IN (?) AND (timeCreate between ? and ?) AND typeData = ? AND sensor = ?", listNode, startDate,endDate, typeMedium, sensorTemp).fetch();
+        Data tempMin = Data.find("node_id IN (?) AND (timeCreate between ? and ?) AND typeData = ? AND sensor = ? order by value asc", listNode, startDate,endDate, typeNow, sensorTemp).first();
+        Data tempMax = Data.find("node_id IN (?) AND (timeCreate between ? and ?) AND typeData = ? AND sensor = ? order by value desc", listNode, startDate,endDate, typeNow, sensorTemp).first();
 
-        List<Data> humiMedium = Data.find("node_id IN (?) AND weekofyear(timeCreate) = ? AND typeData = ? AND sensor = ?", listNode, week, typeMedium, sensorHumi).fetch();
-        Data humiMin = Data.find("node_id IN (?) AND weekofyear(timeCreate) = ? AND typeData = ? AND sensor = ? order by value asc", listNode, week, typeNow, sensorHumi).first();
-        Data humiMax = Data.find("node_id IN (?) AND weekofyear(timeCreate) = ? AND typeData = ? AND sensor = ? order by value desc", listNode, week, typeNow, sensorHumi).first();
+        List<Data> humiMedium = Data.find("node_id IN (?) AND (timeCreate between ? and ?) AND typeData = ? AND sensor = ?", listNode, startDate,endDate, typeMedium, sensorHumi).fetch();
+        Data humiMin = Data.find("node_id IN (?) AND (timeCreate between ? and ?) AND typeData = ? AND sensor = ? order by value asc", listNode, startDate,endDate, typeNow, sensorHumi).first();
+        Data humiMax = Data.find("node_id IN (?) AND (timeCreate between ? and ?) AND typeData = ? AND sensor = ? order by value desc", listNode, startDate,endDate, typeNow, sensorHumi).first();
 
         java.text.DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm");
         String sairMedium = null;
+        String sairMmin = null;
         String sairMax = null;
         String airTotal = null;
         if (airMedium != null && airMax != null) {
             float fair = handerData(airMedium, 1);
-            sairMedium = "Chất lượng không khí trung bình trong tuần ở mức " + fair + "%";
-            sairMax = "Chất lượng không khí cao nhất trong tuần ở mức " + airMax.value + "% vào lúc " + dateFormat.format(airMax.timeCreate);
+            sairMedium = "Chất lượng không khí trung bình trong tuần ở mức " + fair + "/100";
+            sairMmin = "Chất lượng không khí tốt nhất trong tuần ở mức " + airMin.value + "/100 vào lúc " + dateFormat.format(airMin.timeCreate);
+            sairMax = "Chất lượng không khí cao nhất trong tuần ở mức " + airMax.value + "/100 vào lúc " + dateFormat.format(airMax.timeCreate);
             airTotal = "";
             if (fair < 30) {
-                airTotal = "Trung bình chất lượng không khí trong tuần ở mức tốt cho sức khỏe";
+                airTotal = "Trung bình chất lượng không khí trong tuần ở mức tốt cho sức khỏe (từ 0 đến 30)";
                 if (airMax.value > 30) {
                     airTotal += ", tuy nhiên có một số thời điểm chất lượng không khi bị ô nhiễm";
                 }
@@ -551,7 +559,7 @@ public class Application extends Controller {
             } else if (ftemp > 27) {
                 tempTotal = "Nhiệt độ trung bình trong tuần cao hơn ngưỡng tốt cho sức khỏe (27°C)";
             } else {
-                tempTotal = "Nhiệt độ trung bình trong tuần ở ngưỡng tốt cho sức khỏe";
+                tempTotal = "Nhiệt độ trung bình trong tuần ở ngưỡng tốt cho sức khỏe (22°C đến 27°C)";
                 if (tempMin.value < 22 && tempMax.value > 27) {
                     tempTotal += ", tuy nhiên biên độ nhiệt trong tuần chênh lệch khá cao";
                 } else {
@@ -580,7 +588,7 @@ public class Application extends Controller {
             } else if (fhumi > 70) {
                 humiTotal = "Độ ẩm trung bình trong tuần cao hơn ngưỡng tốt cho sức khỏe (70%)";
             } else {
-                humiTotal = "Độ ẩm trung bình trong tuần ở ngưỡng tốt cho sức khỏe";
+                humiTotal = "Độ ẩm trung bình trong tuần ở ngưỡng tốt cho sức khỏe (50% đến 70%)";
                 if (humiMin.value < 50 && humiMax.value > 70) {
                     humiTotal += ", tuy nhiên biên độ độ ẩm trong tuần chênh lệch khá cao";
                 } else {
@@ -593,7 +601,7 @@ public class Application extends Controller {
                 }
             }
         }
-        render(date, monday, weekend, sairMedium, sairMax, airTotal, stempMedium, stempMax, stempMin, tempTotal, shumiMedium, shumiMax, shumiMin, humiTotal);
+        render(date, startDate, endDate, sairMedium,sairMmin, sairMax, airTotal, stempMedium, stempMax, stempMin, tempTotal, shumiMedium, shumiMax, shumiMin, humiTotal);
 
     }
 

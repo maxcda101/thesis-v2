@@ -11,15 +11,15 @@
     });
 </script>
 
-<h3 style="text-transform: uppercase" class="text-center title">Báo cáo thông tin môi trường trong tuần</h3>
-<h3 style="text-transform: uppercase" class="text-center title">Từ: ${monday.format('dd-MM-yyyy')} đến: ${weekend.format('dd-MM-yyyy')}</h3>
+<h3 style="text-transform: uppercase" class="text-center title">Báo cáo thông tin môi trường theo tuần</h3>
+<h3 style="text-transform: uppercase" class="text-center title">Từ: ${startDate.format('dd-MM-yyyy')} đến: ${endDate.format('dd-MM-yyyy')}</h3>
 
 #{form @Application.reportWeek(), method:'POST'}
 <div class="admin-form-group">
     <div class="wrapper-search">
         <div class="form-inline">
             <input type="hidden" name="commandCode" value="action"/>
-            <label>Chọn ngày trong tuần:</label>
+            <label>Chọn ngày bắt đầu:</label>
             <input type="text" value="${date.format('dd-MM-yyyy')}" name="date"
                    class="form-control admin-input" id="dp1">
         </div>
@@ -28,7 +28,7 @@
         </div>
         <p class="alert-danger" style="margin-top: 10px">${notification}</p>
         <div class="form-inline action-button">
-            <button type="submit" class="btn btn-info admin-btn" style="margin-right: 30px;">Xem</button>
+            <button type="submit" class="btn btn-info admin-btn" >Xem</button>
         </div>
     </div>
 
@@ -37,6 +37,7 @@
 <div>
     <p>${sairMedium}</p>
     <p>${sairMax}</p>
+    <p>${sairMmin}</p>
     <p class="label label-info">${airTotal}</p>
 
     <p>${stempMedium}</p>
