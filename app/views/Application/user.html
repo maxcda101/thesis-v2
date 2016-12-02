@@ -10,6 +10,7 @@
         <th class="type-mo">Địa chỉ</th>
         <th class="type-mo">Số điện thoại</th>
         <th class="type-mo">Quyền hạn</th>
+        <th class="type-mo">Phân quyền</th>
         <th class="type-mo">Hành Động</th>
 
     </tr>
@@ -23,6 +24,7 @@
         <td>${item.user.address}</td>
         <td>${item.user.phone}</td>
         <td>#{if item.isLocationManager} Quản lý tòa nhà#{/if} #{else} #{/else}</td>
+        <td><a href="/Application/editRole?idCustomer=${item.id}">#{if !item.isLocationManager}Cấp quyền#{/if} #{else}Thu quyền #{/else}</a></td>
         <td  align="center">
             <button  style="margin: auto;" class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa không?');"><span class="glyphicon glyphicon-trash"></span></button>
         </td>

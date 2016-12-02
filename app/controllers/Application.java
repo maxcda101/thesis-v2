@@ -8,6 +8,10 @@ import play.data.validation.Required;
 import play.db.jpa.JPA;
 import play.mvc.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -603,6 +607,39 @@ public class Application extends Controller {
         }
         render(date, startDate, endDate, sairMedium,sairMmin, sairMax, airTotal, stempMedium, stempMax, stempMin, tempTotal, shumiMedium, shumiMax, shumiMin, humiTotal);
 
+    }
+    public static void locations(){
+        List<Location> locations=Location.findAll();
+        render(locations);
+    }
+    public static void editRole(Long idCustomer){
+        if(!session.get("role").equals("manager")){
+            user();
+        }
+        Customer customer=Customer.findById(idCustomer);
+        if(customer!=null){
+            if(customer.isLocationManager){
+                customer.isLocationManager=false;
+            }else{
+                customer.isLocationManager=true;
+            }
+            customer.save();
+        }
+        user();
+    }
+    public static void download(){
+        File file1 = new File("public/download/app.apk");
+        if (file1.exists()) {
+            InputStream is = null;
+            try {
+                is = new FileInputStream(file1);
+            } catch (FileNotFoundException e) {
+                renderJSON("Lỗi tải tập tin");
+            }
+            renderBinary(is, "Air Quality Monitoring.apk");
+        } else {
+            renderJSON("Tập tin không tồn tại");
+        }
     }
 
     private static List<Data> convertData(List<Data> listOld) {

@@ -1,5 +1,5 @@
 #{extends 'main.html' /}
-#{set title:'Home' /}
+#{set title:'Biểu đồ từng ngày' /}
 <script src="@{'/public/javascripts/lib/Chart.bundle.min.js'}" type="text/javascript"
         charset="${_response_encoding}"></script>
 <style>
@@ -38,7 +38,7 @@
                    id="dp2">
         </div>
         <div class="form-inline">
-           
+
             <select name="idNode" class="selectpicker show-tick" data-live-search="true"
                     title="Chọn Node">
                 #{list items:listNode, as:'node'}

@@ -1,0 +1,37 @@
+#{extends 'main.html' /}
+#{set title:'Quản lý tòa nhà' /}
+<h3 style="text-transform: uppercase" class="text-center title">Quản lý các tòa nhà</h3>
+<div class="form-group">
+    <button class="btn btn-primary">Thêm</button>
+</div>
+<table class="table table-bordered table-striped table-hover admin-table">
+    <thead>
+    <tr class="success">
+        <th>ID</th>
+        <th class="time-mo">Tên tòa nhà</th>
+        <th class="time-mo">Địa chỉ</th>
+        <th class="type-mo">Kinh độ</th>
+        <th class="type-mo">Vĩ độ</th>
+        <th class="type-mo">Mô Tả</th>
+        <th class="type-mo">Hành Động</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    #{list items:locations, as:'item'}
+    <tr>
+        <td>${item.id}</td>
+        <td>${item.name}</td>
+        <td>${item.address}</td>
+        <td>${item.latitude}</td>
+        <td>${item.longitude}</td>
+        <td>${item.description}</td>
+        <td  align="center">
+            <button class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></button>
+            <button class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa không?');"><span class="glyphicon glyphicon-trash"></span></button>
+        </td>
+    </tr>
+    #{/list}
+
+    </tbody>
+</table>

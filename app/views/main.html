@@ -76,14 +76,14 @@
                                     <a #{if request.action=="Application.chart"}class="active"#{/if}
                                        href="@{Application.chart()}">
                                         <!--<span class="glyphicon glyphicon-tower"></span>-->
-                                        <span class="nav-item">Biểu đồ theo giờ</span>
+                                        <span class="nav-item">Biểu đồ theo từng giờ</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a #{if request.action=="Application.partOfTheDay"}class="active"#{/if}
                                        href="@{Application.partOfTheDay()}">
                                         <!--<span class="glyphicon glyphicon-tower"></span>-->
-                                        <span class="nav-item">Biểu đồ theo ngày</span>
+                                        <span class="nav-item">Biểu đồ theo từng ngày</span>
                                     </a>
                                 </li>
                                 <li>
@@ -164,6 +164,22 @@
                             </a>
                         </li>
                         #{/if}
+                        #{if isManager}
+                        <li>
+                            <a #{if request.action=="Application.locations"}class="active"#{/if}
+                               href="@{Application.locations()}">
+                                <span class="glyphicon glyphicon-map-marker"></span>
+                                <span class="nav-item">Quản lý các tòa nhà</span>
+                            </a>
+                        </li>
+                        #{/if}
+                        <li>
+                            <a #{if request.action=="Application.download"}class="active"#{/if}
+                               href="@{Application.download()}">
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                                <span class="nav-item">Ứng dụng Android</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <div class="wrapper-content">
