@@ -42,14 +42,26 @@
             <select name="idNode" class="selectpicker show-tick" data-live-search="true"
                     title="Chọn Node">
                 #{list items:listNode, as:'node'}
+                #{if node.id ==idNode }
+                <option selected value="${node.id}">${node.name}</option>
+                #{/if}
+                #{else}
                 <option value="${node.id}">${node.name}</option>
+                #{/else}
+
                 #{/list}
             </select>
 
             <select name="idSensor" class="selectpicker show-tick" data-live-search="true"
                     title="Chọn Sensor">
                 #{list items:sensorList, as:'item'}
+
+                #{if item.id ==idSensor }
+                <option selected value="${item.id}">${item.name}</option>
+                #{/if}
+                #{else}
                 <option value="${item.id}">${item.name}</option>
+                #{/else}
                 #{/list}
             </select>
 

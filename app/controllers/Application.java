@@ -143,11 +143,11 @@ public class Application extends Controller {
         }
         if (startDate.compareTo(endDate) > 0) {
             notification = "Thời gian bắt đầu và kết thúc không hợp lệ.";
-            render(startDate, endDate, notification, listNode, sensorList);
+            render(startDate, endDate, notification, listNode, sensorList, idNode, idSensor);
         }
         if (validation.hasErrors()) {
             notification = "Vui lòng chọn Node và Sensor";
-            render(startDate, endDate, notification, listNode, sensorList);
+            render(startDate, endDate, notification, listNode, sensorList,idNode, idSensor);
         }
 
         MutableDateTime objTime = new MutableDateTime(endDate);
@@ -162,7 +162,7 @@ public class Application extends Controller {
             }
         }
 
-        render(sensorList, startDate, endDate, data, listNode);
+        render(sensorList, startDate, endDate, data, listNode,idNode, idSensor);
     }
 
     public static void dangerous(@As("dd-MM-yyyy") Date startDate, @As("dd-MM-yyyy") Date endDate, @Required Long idNode, @Required String commandCode, @Required Long idSensor) {
@@ -177,11 +177,11 @@ public class Application extends Controller {
         }
         if (startDate.compareTo(endDate) > 0) {
             notification = "Thời gian bắt đầu và kết thúc không hợp lệ.";
-            render(startDate, endDate, notification, listNode, sensorList);
+            render(startDate, endDate, notification, listNode, sensorList, idNode, idSensor);
         }
         if (validation.hasErrors()) {
             notification = "Vui lòng chọn Node và Sensor";
-            render(startDate, endDate, notification, listNode, sensorList);
+            render(startDate, endDate, notification, listNode, sensorList, idNode, idSensor);
         }
 
         MutableDateTime objTime = new MutableDateTime(endDate);
@@ -198,7 +198,7 @@ public class Application extends Controller {
             }
         }
 
-        render(sensorList, startDate, endDate, data, listNode);
+        render(sensorList, startDate, endDate, data, listNode, idNode, idSensor);
     }
 
     public static void chart(@As("dd-MM-yyyy") Date date, Long idNode) {
@@ -241,7 +241,7 @@ public class Application extends Controller {
         humiMax = convertData(humiMax);
 
 
-        render(node, listNode, date, tempMedium, tempMin, tempMax, airMedium, airMin, airMax, humiMedium, humiMin, humiMax);
+        render(node, listNode, date, tempMedium, tempMin, tempMax, airMedium, airMin, airMax, humiMedium, humiMin, humiMax, idNode);
     }
 
     public static void partOfTheDay(@As("dd-MM-yyyy") Date startDate, @As("dd-MM-yyyy") Date endDate, @Required Long idNode, @Required String commandCode, @Required Long idSensor) {
@@ -258,11 +258,11 @@ public class Application extends Controller {
         MutableDateTime objTimeEnd = new MutableDateTime(endDate);
         if (startDate.compareTo(endDate) > 0) {
             notification = "Thời gian bắt đầu và kết thúc không hợp lệ.";
-            render(startDate, endDate, notification, listNode, sensorList);
+            render(startDate, endDate, notification, listNode, sensorList, idNode, idSensor);
         }
         if (validation.hasErrors()) {
             notification = "Vui lòng chọn Node và Sensor";
-            render(startDate, endDate, notification, listNode, sensorList);
+            render(startDate, endDate, notification, listNode, sensorList, idNode, idSensor);
         }
         int x = objTimeStart.getDayOfYear();
         int y = objTimeEnd.getDayOfYear();
@@ -289,7 +289,7 @@ public class Application extends Controller {
 
             objTimeStart.addDays(1);
         }
-        render(startDate, endDate, notification, listNode, sensorList, dataMedium, dataMax, dataMin, labels, idSensor);
+        render(startDate, endDate, notification, listNode, sensorList, dataMedium, dataMax, dataMin, labels, idSensor, idNode, idSensor);
 
     }
 

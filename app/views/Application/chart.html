@@ -236,9 +236,16 @@
             <label>Chọn Node:</label>
             <select name="idNode" class="selectpicker show-tick" data-live-search="true" title="Chọn Node">
                 #{list items:listNode, as:'node'}
+                #{if node.id ==idNode }
+                <option selected value="${node.id}">${node.name}</option>
+                #{/if}
+                #{else}
                 <option value="${node.id}">${node.name}</option>
+                #{/else}
+
                 #{/list}
             </select>
+
         </div>
 
         <div class="form-inline">
