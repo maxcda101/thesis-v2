@@ -628,7 +628,7 @@ public class Application extends Controller {
         user();
     }
     public static void download(){
-        File file1 = new File("public/download/app.apk");
+        File file1 = new File("/app/do-an/public/download/app.apk");
         if (file1.exists()) {
             InputStream is = null;
             try {
